@@ -1,4 +1,6 @@
 #!/bin/bash
+# i use this to turn on and off my webcam,
+# to save laptop battery.
 
 case "$1" in
   on)
