@@ -1,0 +1,12 @@
+#!/bin/bash
+
+file="/sys/class/backlight/intel_backlight/brightness"
+level=$(cat $file)
+
+if [[ "$#" -eq 0 ]]; then
+    cat $file
+elif [[ "$1" = "-" ]]; then
+    echo $(( level - 25 )) > $file
+elif [[ "$1" = "+" ]]; then
+    echo $(( level + 25 )) > $file
+fi

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir ${1%.png}
+for i in 512 144 96 72 48 ; do convert -resize $ix$i $1 ./${1%.png}/${1%.png}_$i.png ; done
