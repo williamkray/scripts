@@ -1,4 +1,19 @@
 #!/bin/bash
+## this script is used to launch all terminal sessions
+## within an existing tmux session. It looks for a master session
+## whose name is set as an environment variable, so
+## be sure to add that to your bash profile.
+## it also handles killing detached sessions on each launch,
+## so that you don't end up with a million tmux sessions because
+## you closed several terminal windows.
+
+
+## There are also bits in here that make use of some other scripts
+## to run cmus on window 0, rename SSH sessions, etc.
+## otherwise, it can also take an argument to launch with.
+## this pretty much depends heavily on having your terminal and other 
+## scripts already in your path and well configured.
+
 
 input="$1"
 
