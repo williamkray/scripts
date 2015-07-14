@@ -1,4 +1,5 @@
 #!/bin/bash
+# can be used to increase or decrease screen brightness by passing either - or + as argument
 
 file="/sys/class/backlight/intel_backlight/brightness"
 level=$(cat $file)
