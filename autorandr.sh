@@ -17,8 +17,8 @@ if [[ -n $(xrandr|grep "DP2-1 connected") && -n $(xrandr|grep "DP2-2 connected")
     sudo dhcpcd eth0
     skype &
     if [[ -n $(sudo iw dev wlp3s0 scan | grep "krayhome") ]]; then
-      pacmd set-default-source alsa_input.usb-Logitech_Logitech_USB_Headset-00-Headset.analog-mono
-      pacmd set-default-sink alsa_output.usb-Logitech_Logitech_USB_Headset-00-Headset.analog-stereo
+      pacmd set-default-source alsa_input.usb-Logitech_Logitech_USB_Headset-00.analog-mono
+      pacmd set-default-sink alsa_output.usb-Logitech_Logitech_USB_Headset-00.analog-stereo
     else
       pacmd set-default-sink alsa_output.usb-C-Media_Electronics_Inc._ThinkPad_OneLink_Pro_Dock_Audio-00.analog-stereo
     fi
