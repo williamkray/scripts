@@ -9,7 +9,7 @@ host=$1
 tries=0
 return="bad"
 
-while [[ $tries -le 4 ]] && [[ $return != 'good' ]]; do
+while [[ $tries -le 2 ]] && [[ $return != 'good' ]]; do
   if [[ $2 ]]; then
     if [[ $2 == "-t" ]]; then
       ssh $host -t '. /etc/profile; sudo su - root -c "/usr/bin/tail -f /var/log/messages "; sudo -i'
