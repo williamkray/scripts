@@ -10,4 +10,4 @@ else
   sudo powerdown
 fi
 
-/home/william/Scripts/autorandr.sh
+sudo -u william /home/william/Scripts/autorandr.sh

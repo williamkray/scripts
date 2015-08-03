@@ -1,53 +1,112 @@
 #!/bin/bash
 #
-# to crank down font size:
-# xfconf-query -c xsettings -p /Xft/DPI -s 96
+# a better laid out version of my
+# autrandr bash script, still in bash.
 
-export DISPLAY=":0"
+## do the needful
+export DISPLAY=':0.0'
+export PULSE_RUNTIME_PATH="/run/user/1000/pulse/"
+## need to sleep a little to allow hardware changes to register
+sleep 5
 
-# set to check for nearby TEN wifi networks for work monitor setup
-if [[ -n $(xrandr|grep "DP2-1 connected") && -n $(xrandr|grep "DP2-2 connected") ]]; then
-#if [[ -n $(xrandr|grep "DP2-1 connected") && -n $(xrandr|grep "DP2-2 connected") && -n $(sudo iw dev wlp3s0 scan | grep "TEN-Guest") ]]; then
-  while [[ -z $(xrandr|grep "Screen 0"|grep "current 6400 x 1440") || $counter < 1 ]]; do
-    xrandr --output DP2-1 --right-of eDP1 --mode 1920x1080
-    xrandr --output DP2-2 --right-of DP2-1 --mode 1920x1080
-#    xfconf-query -c xsettings -p /Xft/DPI -s 96
-    numlockx
-    sudo dhcpcd enp0s20u3u1u3c2
-    sudo dhcpcd eth0
-    skype &
-    if [[ -n $(sudo iw dev wlp3s0 scan | grep "krayhome") ]]; then
-      pacmd set-default-source alsa_input.usb-Logitech_Logitech_USB_Headset-00.analog-mono
-      pacmd set-default-sink alsa_output.usb-Logitech_Logitech_USB_Headset-00.analog-stereo
-    else
-      pacmd set-default-sink alsa_output.usb-C-Media_Electronics_Inc._ThinkPad_OneLink_Pro_Dock_Audio-00.analog-stereo
-    fi
-    counter=$((counter + 1))
+## find all pulse audio sinks (speakers)
+get_sinks() {
+  all_sinks=$(pacmd list-sinks|grep 'name: <'|sed -r 's/(name: <|>)//g')
+  #echo "Sinks found: $all_sinks"
+}
+
+## find all pulse audio sources (microphones)
+get_sources() {
+  all_sources=$(pacmd list-sources|grep 'name: <'|grep -v monitor|sed -r 's/(name: <|>)//g')
+  #echo "Sources found: $all_sources"
+}
+
+get_ssids() {
+  all_ssids=$(sudo iw dev wlp3s0 scan|grep "SSID: "|sed -r 's/\s+SSID:\s/ /g')
+  #echo "SSIDs found: $all_ssids"
+}
+
+do_cmds() {
+  for cmd in $@; do
+    echo "Executing: $cmd"
+    eval $cmd
   done
-#elif [[ -n $(xrandr|grep "HDMI1 connected") && -n $(xrandr|grep "HDMI2 connected") && -n $(sudo iw dev wlp3s0 scan | grep "krayhome") ]]; then
-#  while [[ -z $(xrandr|grep "Screen 0"|grep "current 6400 x 1440") || $counter < 1 ]]; do
-#    xrandr --output HDMI1 --right-of eDP1 --mode 1920x1080
-#    xrandr --output HDMI2 --right-of HDMI1 --mode 1920x1080
-#    xfconf-query -c xsettings -p /Xft/DPI -s 96
-#    numlockx
-#    counter=$((counter + 1))
-#  done
-elif [[ -n $(xrandr|grep "DP2 connected") && -n $(xrandr|grep "3840x1080") ]]; then
-  /home/william/.screenlayout/docked_wide.sh
-#  xfconf-query -c xsettings -p /Xft/DPI -s 96
-  numlockx
-  pacmd set-default-sink alsa_output.usb-C-Media_Electronics_Inc._ThinkPad_OneLink_Pro_Dock_Audio-00.analog-stereo
-  sudo dhcpcd enp0s20u3u1u3c2
-  skype &
-elif [[ -n $(xrandr|grep "HDMI2 connected") ]]; then
-  /home/william/.screenlayout/hdmi-only.sh
-else
-  while [[ -z $(xrandr|grep "Screen 0"|grep "current 2560 x 1440") || $counter < 1 ]]; do
-    /home/william/.screenlayout/solo.sh
-#    xfconf-query -c xsettings -p /Xft/DPI -s 155
-    pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo
-    counter=$((counter + 1))
-  done
+}
+
+## determine some environmental factors
+## get ssids first since it's slow
+get_ssids
+get_sinks
+get_sources
+
+## are we docked? check audio outputs
+docked=false
+if [[ $all_sinks =~ [Dd]ock ]]; then
+  docked=true
 fi
 
-exit 0
+## where are we? use nearby wifi networks
+if [[ -n $(echo $all_ssids|grep 'krayhome') ]]; then
+  location='home'
+elif [[ -n $(echo "$all_ssids"|grep 'TEN-Guest') ]]; then
+  location='work'
+else
+  location='unrecognized'
+fi
+
+## set a sane default for audio input and output
+default_sink=$(echo "$all_sinks"|sed -r 's/(\s+|\t+)/\r\n/g'|grep pci|grep -v hdmi)
+default_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|grep pci|grep -v hdmi)
+
+## generate values for dock audio devices
+dock_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock")
+dock_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock")
+
+## generate values for headset audio devices
+headset_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Hh]eadset")
+headset_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Hh]eadset")
+
+## check if either recognized source exists, in priority order
+if [[ -n $headset_sink ]]; then
+  default_sink=$headset_sink
+  default_source=$headset_source
+elif [[ -n $dock_sink  ]]; then
+  default_sink=$dock_sink
+  default_source=$dock_source
+fi
+
+## output some info so we know what's going on
+echo "Location: $location"
+echo "Docked: $docked"
+echo "Audio output: $default_sink"
+echo "Audio input: $default_source"
+echo ""
+
+## set some good general commands that can run
+cmds_gen="numlockx
+sudo dhcpcd eth0
+sudo dhcpcd enp0s20u3u1u3
+pacmd set-default-sink $default_sink
+pacmd set-default-source $default_source
+kill -hup $(pidof xfce4-panel)"
+
+cmds_home="$cmds_gen
+xrandr --output DP2-1 --primary --right-of eDP1 --mode 1920x1080
+xrandr --output DP2-2 --right-of DP2-1 --mode 1920x1080"
+
+cmds_work="$cmds_home
+skype &"
+
+IFS=$'\n'
+if [[ $docked == true ]]; then
+  if [[ $location == 'home' ]]; then
+    do_cmds "$cmds_home"
+  elif [[ $location == 'work' ]]; then
+    do_cmds "$cmds_work"
+  fi
+else
+  xrandr --auto
+  do_cmds "$cmds_gen"
+fi
+
+notify-send "autorandr has run on display $DISPLAY"
