@@ -5,11 +5,16 @@ timeout=10
 
 case "$1" in
   start)
-    string=$(yad --title "Openconnect" --text "VPN connection info:" --form --field="URL" --field="Username" --field="Password":H)
+    string=$(yad --title "Openconnect" --image "vpn" --text "VPN connection info:" --form --field="URL" --field="Username" --field="Password":H)
 
     url=$(echo $string|awk -F '|' '{print $1}')
     username=$(echo $string|awk -F '|' '{print $2}')
     password=$(echo $string|awk -F '|' '{print $3}')
+
+    if [[ -z $url ]] || [[ -z $username ]] || [[ -z $password ]]; then
+      echo "Cancelling"
+      exit 0
+    fi
 
     if [[ -z $(ifconfig | grep tun) ]]; then
       if [[ -n $(ifconfig | egrep "enp0s20u3u1u3|eth0") ]]; then
@@ -34,6 +39,7 @@ case "$1" in
       else
         sudo pkill openconnect
         echo -e "\nConnection timed out. Operation aborted." && notify-send "VPN connection failed"
+        sudo ip link set wlp3s0 up
       fi
     else
       echo "tun network device already exists. Is the VPN already running?" && notify-send "VPN connected"
