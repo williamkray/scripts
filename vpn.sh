@@ -5,7 +5,7 @@ timeout=10
 
 case "$1" in
   start)
-    string=$(yad --title "Openconnect" --image "vpn" --text "VPN connection info:" --form --field="URL" --field="Username" --field="Password":H)
+    string=$(yad --center --title "Openconnect" --image "vpn" --text "VPN connection info:" --form --field="URL" --field="Username" --field="Password":H)
 
     url=$(echo $string|awk -F '|' '{print $1}')
     username=$(echo $string|awk -F '|' '{print $2}')
@@ -27,12 +27,7 @@ case "$1" in
         time=$((time+1))
       done
       while [[ -n $(ifconfig | grep tun) ]]; do
-        PIPE='/tmp/vpn-menu'
-        mkfifo $PIPE
-        exec 3<> $PIPE
-        echo 'menu:Disconnect!vpn.sh stop' > $PIPE
-
-        yad --notification --image vpn --text "VPN connected" --command="" --listen <&3
+        yad --notification --image vpn --text "VPN connected: $url" --command="" --menu 'Disconnect!vpn.sh stop'
       done > /dev/null 2>&1 &
       if [[ $time -le $timeout ]]; then
         echo -e "\nConnected successfully." && notify-send "Connected to VPN"
@@ -52,7 +47,7 @@ case "$1" in
     sudo ip link set wlp3s0 up
     sudo dhcpcd wlp3s0
     echo "VPN connection stopped." && notify-send "VPN connection stopped"
-    rm /tmp/vpn-menu
+    rm $PIPE
     ;;
   *)
     echo "Usage: vpn (start|stop)"
