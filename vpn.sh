@@ -5,12 +5,18 @@ timeout=10
 
 case "$1" in
   start)
+    string=$(yad --title "Openconnect" --text "VPN connection info:" --form --field="URL" --field="Username" --field="Password":H)
+
+    url=$(echo $string|awk -F '|' '{print $1}')
+    username=$(echo $string|awk -F '|' '{print $2}')
+    password=$(echo $string|awk -F '|' '{print $3}')
+
     if [[ -z $(ifconfig | grep tun) ]]; then
-      if [[ -n $(ifconfig | egrep "enp0s20u3u1u3c2|eth0") ]]; then
+      if [[ -n $(ifconfig | egrep "enp0s20u3u1u3|eth0") ]]; then
         sudo ip link set wlp3s0 down
       fi
-      echo -n "Connecting to webvpn.automotive.com" && notify-send "Connecting to webvpn.automotive.com"
-      screen -dmS vpn /home/william/Scripts/q4vpn.exp
+      echo -n "Connecting to $url" && notify-send "Connecting to $url"
+      screen -dmS vpn launchvpn.exp $url $username $password
       while [[ -z $(ifconfig | grep tun) ]] && [[ $time -le $timeout ]]; do
         sleep 1 && echo -n "."
         time=$((time+1))
