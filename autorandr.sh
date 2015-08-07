@@ -7,7 +7,7 @@
 export DISPLAY=':0.0'
 export PULSE_RUNTIME_PATH="/run/user/1000/pulse/"
 ## need to sleep a little to allow hardware changes to register
-sleep 5
+#sleep 5
 
 ## find all pulse audio sinks (speakers)
 get_sinks() {
