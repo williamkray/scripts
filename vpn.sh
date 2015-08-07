@@ -22,7 +22,12 @@ case "$1" in
         time=$((time+1))
       done
       while [[ -n $(ifconfig | grep tun) ]]; do
-        yad --notification --image vpn --text "VPN connected" --command="/home/william/Scripts/vpn.sh stop"
+        PIPE='/tmp/vpn-menu'
+        mkfifo $PIPE
+        exec 3<> $PIPE
+        echo 'menu:Disconnect!vpn.sh stop' > $PIPE
+
+        yad --notification --image vpn --text "VPN connected" --command="" --listen <&3
       done > /dev/null 2>&1 &
       if [[ $time -le $timeout ]]; then
         echo -e "\nConnected successfully." && notify-send "Connected to VPN"
@@ -41,6 +46,7 @@ case "$1" in
     sudo ip link set wlp3s0 up
     sudo dhcpcd wlp3s0
     echo "VPN connection stopped." && notify-send "VPN connection stopped"
+    rm /tmp/vpn-menu
     ;;
   *)
     echo "Usage: vpn (start|stop)"
