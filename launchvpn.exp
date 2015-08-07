@@ -1,0 +1,14 @@
+#!/usr/bin/expect -f
+
+set url [lindex $argv 0]
+set un [lindex $argv 1]
+set pw [lindex $argv 2]
+
+spawn sudo openconnect $url
+expect "Username:"
+send "$un\r"
+
+expect "Password:"
+send "$pw\r"
+
+interact
