@@ -1,7 +1,7 @@
 #!/bin/bash
 
 time=0
-timeout=10
+timeout=30
 
 case "$1" in
   start)
@@ -47,7 +47,6 @@ case "$1" in
     sudo ip link set wlp3s0 up
     sudo dhcpcd wlp3s0
     echo "VPN connection stopped." && notify-send "VPN connection stopped"
-    rm $PIPE
     ;;
   *)
     echo "Usage: vpn (start|stop)"
