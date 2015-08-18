@@ -41,7 +41,7 @@ get_sources
 
 ## are we docked? check audio outputs
 docked=false
-if [[ $all_sinks =~ [Dd]ock ]]; then
+if [[ $all_sinks =~ ([Dd]ock|_USB_Advanced_Audio_Device) ]]; then
   docked=true
 fi
 
@@ -59,8 +59,8 @@ default_sink=$(echo "$all_sinks"|sed -r 's/(\s+|\t+)/\r\n/g'|grep pci|grep -v hd
 default_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|grep pci|grep -v hdmi)
 
 ## generate values for dock audio devices
-dock_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock")
-dock_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock")
+dock_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock|_USB_Advanced_Audio_Device")
+#dock_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock|_USB_Advanced_Audio_Device")
 
 ## generate values for headset audio devices
 headset_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Hh]eadset")
