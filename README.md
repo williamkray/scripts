@@ -9,6 +9,7 @@ the most important bits
 the scripts I use most frequently are:
 * autorandr.sh runs some commands depending on if my laptop is docked, what wifi networks are nearby, etc.
 * auto-tmux.sh runs every time i open a terminal window, and launches everything within my existing tmux session
+* ssh-dup.sh is used by my tmux config to duplicate a currently open ssh session in a new pane
 * chrome-launcher.sh launches a chrome window using a specific profile, based on what virtual desktop i'm using in linux
 * git-completion.bash and git-prompt.sh were pulled from somewhere else. it probably says somewhere in the script but i'm too lazy to check right now.
 * vpn.sh and launchvpn.exp i use all the time to connect to my work's Cisco VPN
