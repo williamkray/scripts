@@ -27,7 +27,7 @@ fi
 if [[ -z $sessions ]]; then
   if [[ "$1" == "cmus" ]]; then
     tmux -2 new -s $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus"
-    cmus-remote -l /home/william/Music
+    cmus-remote -l /home/william/Music/contemporary
     cmus-remote -C "update-cache"
   elif [[ "$1" == "ssh" ]]; then
     source /tmp/s
@@ -45,11 +45,11 @@ else
     # run cmus as a special case
     if [[ -z $(pidof cmus) ]]; then
       tmux -2 new -t $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus"
-      cmus-remote -l /home/william/Music
+      cmus-remote -l /home/william/Music/contemporary
       cmus-remote -C "update-cache"
     else
       tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
-      cmus-remote -l /home/william/Music
+      cmus-remote -l /home/william/Music/contemporary
       cmus-remote -C "update-cache"
     fi
   elif [[ "$1" == "ssh" ]]; then
