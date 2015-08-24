@@ -60,7 +60,7 @@ default_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|grep pci|grep -v 
 
 ## generate values for dock audio devices
 dock_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock|_USB_Advanced_Audio_Device")
-#dock_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock|_USB_Advanced_Audio_Device")
+dock_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock|_USB_Advanced_Audio_Device")
 
 ## generate values for headset audio devices
 headset_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Hh]eadset")
@@ -72,7 +72,7 @@ if [[ -n $headset_sink ]]; then
   default_source=$headset_source
 elif [[ -n $dock_sink  ]]; then
   default_sink=$dock_sink
-  default_source=$dock_source
+  #default_source=$dock_source
 fi
 
 ## output some info so we know what's going on
@@ -83,11 +83,13 @@ echo "Audio input: $default_source"
 echo ""
 
 ## set some good general commands that can run
+
 cmds_gen="numlockx
 sudo dhcpcd eth0
 sudo dhcpcd enp0s20u3u1u3
 pacmd set-default-sink $default_sink
 pacmd set-default-source $default_source
+$del_if
 kill -hup $(pidof xfce4-panel)"
 
 cmds_home="$cmds_gen
@@ -108,5 +110,18 @@ else
   xrandr --auto
   do_cmds "$cmds_gen"
 fi
+
+## this one is for removing interfaces from
+## resolvconf, but it's separate because
+## it's a bit wordy
+for i in $(resolvconf -i); do
+  nic="${i/.dhcp/}"
+  if [[ $(ip link show) =~ .*$nic.* ]]; then
+    echo "removing nic $nic from resolvconf"
+    sudo resolvconf -d "$nic"
+#  else
+#    echo "interface $nic exists. skipping"
+  fi
+done
 
 notify-send "autorandr has run on display $DISPLAY"
