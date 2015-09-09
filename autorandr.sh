@@ -93,8 +93,10 @@ $del_if
 kill -hup $(pidof xfce4-panel)"
 
 cmds_home="$cmds_gen
-xrandr --output DP2-1 --primary --right-of eDP1 --mode 1920x1080
-xrandr --output DP2-2 --right-of DP2-1 --mode 1920x1080"
+~/.screenlayout/work-docked.sh"
+#cmds_home="$cmds_gen
+#xrandr --output DP2-1 --primary --right-of eDP1 --mode 1920x1080
+#xrandr --output DP2-2 --right-of DP2-1 --mode 1920x1080"
 
 cmds_work="$cmds_home
 skype &"
@@ -110,17 +112,19 @@ else
   xrandr --auto
   do_cmds "$cmds_gen"
 fi
+unset IFS
 
 ## this one is for removing interfaces from
 ## resolvconf, but it's separate because
 ## it's a bit wordy
+
 for i in $(resolvconf -i); do
   nic="${i/.dhcp/}"
-  if [[ $(ip link show) =~ .*$nic.* ]]; then
+  if [[ $(ip link show) =~ $nic ]]; then
+    echo "interface $nic exists. skipping"
+  else
     echo "removing nic $nic from resolvconf"
-    sudo resolvconf -d "$nic"
-#  else
-#    echo "interface $nic exists. skipping"
+    sudo resolvconf -d "$i"
   fi
 done
 
