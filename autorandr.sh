@@ -99,7 +99,7 @@ cmds_home="$cmds_gen
 #xrandr --output DP2-2 --right-of DP2-1 --mode 1920x1080"
 
 cmds_work="$cmds_home
-skype &"
+"
 
 IFS=$'\n'
 if [[ $docked == true ]]; then
