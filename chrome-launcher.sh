@@ -2,8 +2,8 @@
 
 workspace=$(wmctrl -d | grep \* | awk '{print $NF}')
 
-if [[ $workspace == "Q4" ]]; then
-  google-chrome-stable --profile-directory="Profile 4"
+if [[ $workspace == "CIS" ]]; then
+  google-chrome-stable --profile-directory="Profile 5"
 elif [[ $workspace == "Opsflo" ]]; then
   google-chrome-stable --profile-directory="Profile 2"
 else
