@@ -93,7 +93,7 @@ $del_if
 kill -hup $(pidof xfce4-panel)"
 
 cmds_home="$cmds_gen
-~/.screenlayout/work-docked.sh"
+~/.screenlayout/home-docked.sh"
 #cmds_home="$cmds_gen
 #xrandr --output DP2-1 --primary --right-of eDP1 --mode 1920x1080
 #xrandr --output DP2-2 --right-of DP2-1 --mode 1920x1080"
@@ -110,6 +110,7 @@ if [[ $docked == true ]]; then
   fi
 else
   xrandr --auto
+  /home/william/Scripts/scale.sh
   do_cmds "$cmds_gen"
 fi
 unset IFS
@@ -127,5 +128,12 @@ for i in $(resolvconf -i); do
     sudo resolvconf -d "$i"
   fi
 done
+
+## adjust screen brightness depending on battery mode
+if [[ $(cat /sys/class/power_supply/AC/online) == 1 ]]; then
+  ~/Scripts/max
+else
+  ~/Scripts/min
+fi
 
 notify-send "autorandr has run on display $DISPLAY"
