@@ -1,4 +1,4 @@
 #!/bin/bash
 
-xbacklight -set 5
+xbacklight -set 10
 
