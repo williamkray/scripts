@@ -57,7 +57,9 @@ else
     HOST="${URL:6}"
     hostonly=`echo $HOST | sed 's/^.*\@//'`
     tmux -2 new-session -t "$TMUX_MASTER" \; new-window -n "$hostonly" "~/Scripts/s $HOST -t" \; split-window -v "~/Scripts/s $HOST"
+  elif [[ -z "$1" ]]; then
+    tmux -2 new -t $TMUX_MASTER\; select-window -t bash
   else
-  tmux -2 new -t $TMUX_MASTER \; new-window "$input"
+    tmux -2 new -t $TMUX_MASTER \; new-window "$input"
   fi
 fi
