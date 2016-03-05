@@ -26,9 +26,12 @@ fi
 
 if [[ -z $sessions ]]; then
   if [[ "$1" == "cmus" ]]; then
-    tmux -2 new -s $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus"
-    cmus-remote -l /home/william/Music/contemporary
-    cmus-remote -C "update-cache"
+    ~/Scripts/musicmount.sh && \
+      tmux -2 new -s $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus" \; detach-client && \
+      sleep 1 && \
+      cmus-remote -l /home/william/Music/contemporary && \
+      cmus-remote -C "update-cache"
+    tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
   elif [[ "$1" == "ssh" ]]; then
     source /tmp/s
     HOST="${URL:6}"
@@ -44,13 +47,17 @@ else
   if [[ "$1" == "cmus" ]]; then
     # run cmus as a special case
     if [[ -z $(pidof cmus) ]]; then
-      tmux -2 new -t $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus"
-      cmus-remote -l /home/william/Music/contemporary
-      cmus-remote -C "update-cache"
-    else
+      ~/Scripts/musicmount.sh && \
+        tmux -2 new -t $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus" \; detach-client && \
+        sleep 1 && \
+        cmus-remote -l /home/william/Music/contemporary && \
+        cmus-remote -C "update-cache"
       tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
-      cmus-remote -l /home/william/Music/contemporary
-      cmus-remote -C "update-cache"
+    else
+      ~/Scripts/musicmount.sh && \
+        cmus-remote -l /home/william/Music/contemporary && \
+        cmus-remote -C "update-cache"
+      tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
     fi
   elif [[ "$1" == "ssh" ]]; then
     source /tmp/s
