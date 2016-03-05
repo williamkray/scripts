@@ -1,10 +1,11 @@
 #!/bin/bash
 
-if [ ! -x /usr/bin/cmus-remote ];
-then
-notify-send "cmus is not installed."
-exit
+if [ ! -x /usr/bin/cmus-remote ]; then
+  notify-send "cmus is not installed."
+  exit
 fi
+
+touch /tmp/cmus-info-id
 
 FILE=$( cmus-remote -Q 2>/dev/null | grep "file" | sed 's/^file //g' )
 ARTIST=$( cmus-remote -Q 2>/dev/null | grep " artist " | sed s/tag\ artist/Artist\:/g )
@@ -13,12 +14,11 @@ TITLE=$( cmus-remote -Q 2>/dev/null | grep " title " | sed s/tag\ title/Song\:/g
 
 ffmpeg -y -i "$FILE" "/tmp/cover.png"
 
-if [ -z "$ARTIST" ];
-then
-notify-send "Nothing"
+if [ -z "$ARTIST" ]; then
+  notify-desktop "Nothing"
 else
-notify-send -i /tmp/cover.png "$ARTIST 
-$TITLE 
-$ALBUM"
+  notify-desktop -r `cat /tmp/cmus-info-id` -i /tmp/cover.png "  $ARTIST
+  $TITLE 
+  $ALBUM" > /tmp/cmus-info-id
 fi
 
