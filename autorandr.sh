@@ -2,6 +2,8 @@
 #
 # a better laid out version of my
 # autrandr bash script, still in bash.
+## start notification
+notify-send "Starting autorandr"
 
 ## do the needful
 export DISPLAY=':0.0'
