@@ -2,12 +2,13 @@
 #
 # a better laid out version of my
 # autrandr bash script, still in bash.
-## start notification
-notify-send "Starting autorandr"
-
 ## do the needful
 export DISPLAY=':0.0'
 export PULSE_RUNTIME_PATH="/run/user/1000/pulse/"
+#export DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/1000/bus'
+## start notification
+notify-desktop "Starting autorandr" > /tmp/autorandr-id
+
 ## need to sleep a little to allow hardware changes to register
 #sleep 5
 
@@ -138,4 +139,4 @@ else
   ~/Scripts/min
 fi
 
-notify-send "autorandr has run on display $DISPLAY"
+notify-desktop -r $(cat /tmp/autorandr-id) "autorandr has run on display $DISPLAY"
