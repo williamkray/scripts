@@ -48,7 +48,7 @@ if [[ -z $sessions ]]; then
     ## then update the library and cache,
     ## and reattach. sleep keeps cmus-remote from throwing errors.
     ~/Scripts/musicmount.sh && \
-      tmux -2 new -s $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus" \; detach-client && \
+      tmux -2 new -s $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus && tmux detach" \; detach-client && \
       sleep 1 && \
       cmus-remote -l /home/william/Music/contemporary && \
       cmus-remote -C "update-cache"
@@ -78,7 +78,7 @@ else
     # run cmus as a special case
     if [[ -z $(pidof cmus) ]]; then
       ~/Scripts/musicmount.sh && \
-        tmux -2 new -t $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus" \; detach-client && \
+        tmux -2 new -t $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus && tmux detach" \; detach-client && \
         sleep 1 && \
         cmus-remote -l /home/william/Music/contemporary && \
         cmus-remote -C "update-cache"
