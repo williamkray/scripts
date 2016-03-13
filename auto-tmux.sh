@@ -32,6 +32,13 @@ if [[ -z $1 ]]; then
   input='bash'
 fi
 
+## add the detach command so we don't have
+## a ton of random terminals open all the time
+input="$input && tmux detach"
+
+## get the first word of the command, used later
+cmd=`echo "$input"|awk '{print $1}'`
+
 ## start up a new master if this is the first go
 ## taking into account what the first command to start with is
 if [[ -z $sessions ]]; then
@@ -93,14 +100,12 @@ else
   ## otherwise it's something specific. either way, we search
   ## for any matching window. if there's more than one,
   ## we bring up a window-picker
-  ## There is still an issue if input is made up of more than
-  ## one word, because the title of the window is just the
-  ## first word. but i don't really care, it's a rare use case.
   else
-    if [[ -z $(tmux list-windows -t "$TMUX_MASTER"|grep "$input") ]]; then
+    if [[ -z $(tmux list-windows -t "$TMUX_MASTER"|grep "$cmd") ]]; then
       tmux -2 new -t $TMUX_MASTER\; new-window "$input"
     else
-      tmux -2 new -t $TMUX_MASTER\; find-window -N "$input"
+      echo "looking for $cmd"
+      tmux -2 new -t $TMUX_MASTER\; find-window -N "$cmd"
     fi
   fi
 fi
