@@ -136,7 +136,7 @@ done
 if [[ $(cat /sys/class/power_supply/AC/online) == 1 ]]; then
   ~/Scripts/max
 else
-  ~/Scripts/min
+  ~/Scripts/mid
 fi
 
 notify-desktop -r $(cat /tmp/autorandr-id) "autorandr has run on display $DISPLAY"
