@@ -8,17 +8,19 @@ fi
 touch /tmp/cmus-info-id
 
 FILE=$( cmus-remote -Q 2>/dev/null | grep "file" | sed 's/^file //g' )
-ARTIST=$( cmus-remote -Q 2>/dev/null | grep " artist " | sed s/tag\ artist/Artist\:/g )
-ALBUM=$( cmus-remote -Q 2>/dev/null | grep " album " | sed s/tag\ album/Album\:/g )
-TITLE=$( cmus-remote -Q 2>/dev/null | grep " title " | sed s/tag\ title/Song\:/g )
+ARTIST=$( cmus-remote -Q 2>/dev/null | grep " artist " | sed 's/tag\ artist/Artist\:/g' )
+ALBUM=$( cmus-remote -Q 2>/dev/null | grep " album " | sed 's/tag\ album/Album\:/g' )
+TITLE=$( cmus-remote -Q 2>/dev/null | grep " title " | sed 's/tag\ title/Song\:/g' )
 
-ffmpeg -y -i "$FILE" "/tmp/cover.png"
+info="$ARTIST
+  $TITLE
+  $ALBUM"
+
+ffmpeg -y -i "$FILE" "/tmp/cover.png" > /dev/null 2>&1
 
 if [ -z "$ARTIST" ]; then
   notify-desktop "Nothing"
 else
-  notify-desktop -r `cat /tmp/cmus-info-id` -i /tmp/cover.png "  $ARTIST
-  $TITLE 
-  $ALBUM" > /tmp/cmus-info-id
+  notify-desktop -r "$(cat /tmp/cmus-info-id)" -i /tmp/cover.png "$info" > /tmp/cmus-info-id
 fi
 
