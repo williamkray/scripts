@@ -100,30 +100,30 @@ __git_ps1 ()
     local DefaultBackgroundColor=
 
     local BeforeText=' ['
-    local BeforeForegroundColor='\e[1;33m' # Yellow
+    local BeforeForegroundColor='\e[1;30m' # Dark gray
     local BeforeBackgroundColor=
     local DelimText=' |'
-    local DelimForegroundColor='\e[1;33m' # Yellow
+    local DelimForegroundColor='\e[1;30m' # Dark gray
     local DelimBackgroundColor=
 
     local AfterText=']'
-    local AfterForegroundColor='\e[1;33m' # Yellow
+    local AfterForegroundColor='\e[1;30m' # Dark gray
     local AfterBackgroundColor=
 
-    local BranchForegroundColor='\e[1;36m' # Cyan
+    local BranchForegroundColor='\e[0;34m' # Darker blue
     local BranchBackgroundColor=
-    local BranchAheadForegroundColor='\e[1;32m' # Green
+    local BranchAheadForegroundColor='\e[0;32m' # Green
     local BranchAheadBackgroundColor=
     local BranchBehindForegroundColor='\e[0;31m' # Red
     local BranchBehindBackgroundColor=
-    local BranchBehindAndAheadForegroundColor='\e[1;33m' # Yellow
+    local BranchBehindAndAheadForegroundColor='\e[0;33m' # Yellow
     local BranchBehindAndAheadBackgroundColor=
 
     local BeforeIndexText=""
-    local BeforeIndexForegroundColor='\e[1;32m' #Dark green
+    local BeforeIndexForegroundColor='\e[0;32m' #Dark green
     local BeforeIndexBackgroundColor=
 
-    local IndexForegroundColor='\e[1;32m' # Dark green
+    local IndexForegroundColor='\e[0;32m' # Dark green
     local IndexBackgroundColor=
 
     local WorkingForegroundColor='\e[0;31m' # Dark red
@@ -133,7 +133,7 @@ __git_ps1 ()
     local UntrackedForegroundColor='\e[0;31m' # Dark red
     local UntrackedBackgroundColor=
 
-    local StashForegroundColor='\e[0;34m' # Darker blue
+    local StashForegroundColor='\e[0;36m' # Cyan
     local StashBackgroundColor=
 
     local EnableFileStatus=`git config --bool bash.enableFileStatus`
