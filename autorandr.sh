@@ -92,14 +92,11 @@ sudo dhcpcd eth0
 sudo dhcpcd enp0s20u3u1u3
 pacmd set-default-sink $default_sink
 pacmd set-default-source $default_source
-$del_if
-kill -hup $(pidof xfce4-panel)"
+$del_if"
 
 cmds_home="$cmds_gen
-~/.screenlayout/home-docked.sh"
-#cmds_home="$cmds_gen
-#xrandr --output DP2-1 --primary --right-of eDP1 --mode 1920x1080
-#xrandr --output DP2-2 --right-of DP2-1 --mode 1920x1080"
+nice -n 19 ~/.screenlayout/home-docked.sh
+kill -hup $(pidof xfce4-panel)"
 
 cmds_work="$cmds_home
 "
@@ -115,6 +112,7 @@ else
   xrandr --auto
   /home/william/Scripts/scale.sh
   do_cmds "$cmds_gen"
+  kill -hup $(pidof xfce4-panel)
 fi
 unset IFS
 
