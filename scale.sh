@@ -1,4 +1,5 @@
 #!/bin/bash
 
 #xrandr --output eDP1 --mode 2048x1152
-xrandr --output eDP1 --mode 1600x900
+xrandr --output eDP1 --mode 1920x1080
+#xrandr --output eDP1 --mode 1600x900
