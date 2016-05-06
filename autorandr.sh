@@ -96,7 +96,7 @@ $del_if"
 
 cmds_home="$cmds_gen
 nice -n 19 ~/.screenlayout/home-docked.sh
-kill -hup $(pidof xfce4-panel)"
+xfce4-panel -r"
 
 cmds_work="$cmds_home
 "
@@ -112,7 +112,7 @@ else
   xrandr --auto
   /home/william/Scripts/scale.sh
   do_cmds "$cmds_gen"
-  kill -hup $(pidof xfce4-panel)
+  xfce4-panel -r
 fi
 unset IFS
 
