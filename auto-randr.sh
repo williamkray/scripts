@@ -8,3 +8,4 @@ else
   undock.sh
 fi
 
+auto-pulse.sh
