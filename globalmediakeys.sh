@@ -1,4 +1,10 @@
 #!/bin/bash
+## simple script that does rudimentary global
+## media control. currently works with anything
+## that accepts XF86 media commands, or cmus.
+## needs work to shore up various security
+## concerns as well as support for other apps
+## like MPD, etc. but it's a start.
 
 usage="$0 [toggle|prev|next]"
 
