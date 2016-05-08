@@ -1,4 +1,9 @@
 #!/bin/bash
+## THIS SCRIPT IS DEPRECATED
+## FUNCTIONALITY IS MOVED TO 
+## auto-randr.sh, which is much simplified,
+## as well as dock*.sh and undock.sh scripts
+## audio is managed by auto-pulse.sh
 #
 # a better laid out version of my
 # autrandr bash script, still in bash.
