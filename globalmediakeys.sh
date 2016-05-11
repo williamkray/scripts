@@ -8,7 +8,7 @@
 
 usage="$0 [toggle|prev|next]"
 
-player_pid="$(pacmd list-sink-inputs|grep -E 'state|process.id'|grep -A1 "RUNNING"|grep -v "RUNNING"|awk -F '"' '{print $2}')"
+player_pid="$(pacmd list-sink-inputs|grep -E 'state|process.id'|grep -A1 "RUNNING"|grep -v "RUNNING"|awk -F '"' '{print $2}'|head -1)"
 
 ## save player pid outside of this script for use later
 if [[ $player_pid == "" ]]; then
