@@ -9,3 +9,4 @@ else
 fi
 
 auto-pulse.sh
+xfce4-panel -r
