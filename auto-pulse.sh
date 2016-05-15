@@ -34,7 +34,7 @@ dock_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock|_USB_Adva
 dock_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Dd]ock|_USB_Advanced_Audio_Device")
 
 ## generate values for headset audio devices
-headset_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Hh]eadset")
+headset_sink=$(echo $all_sinks|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Hh]eadset|bluez")
 headset_source=$(echo $all_sources|sed -r 's/(\s+|\t+)/\r\n/g'|egrep "[Hh]eadset")
 
 ## check if either recognized source exists, in priority order
