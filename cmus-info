@@ -16,11 +16,11 @@ info="$ARTIST
   $TITLE
   $ALBUM"
 
-ffmpeg -y -i "$FILE" "/tmp/cover.png" > /dev/null 2>&1
+ffmpeg -y -i "$FILE" "/tmp/cover.jpg" > /dev/null 2>&1
 
 if [ -z "$ARTIST" ]; then
   notify-desktop "Nothing"
 else
-  notify-desktop -r "$(cat /tmp/cmus-info-id)" -i /tmp/cover.png "$info" > /tmp/cmus-info-id
+  notify-desktop -r "$(cat /tmp/cmus-info-id)" -i /tmp/cover.jpg "$info" > /tmp/cmus-info-id
 fi
 
