@@ -2,7 +2,7 @@
 
 workspace=$(wmctrl -d | grep \* | awk '{print $NF}')
 
-if [[ $workspace == "W" ]]; then
+if [[ $workspace == "2" ]]; then
   google-chrome-stable --profile-directory="Profile 5" $@
 elif [[ $workspace == "S" ]]; then
   google-chrome-stable --profile-directory="Profile 2" $@
