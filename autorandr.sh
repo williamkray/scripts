@@ -115,7 +115,7 @@ if [[ $docked == true ]]; then
   fi
 else
   xrandr --auto
-  /home/william/Scripts/scale.sh
+  /home/william/.scripts/scale.sh
   do_cmds "$cmds_gen"
   xfce4-panel -r
 fi
@@ -137,9 +137,9 @@ done
 
 ## adjust screen brightness depending on battery mode
 if [[ $(cat /sys/class/power_supply/AC/online) == 1 ]]; then
-  ~/Scripts/max
+  ~/.scripts/max
 else
-  ~/Scripts/mid
+  ~/.scripts/mid
 fi
 
 notify-desktop -r $(cat /tmp/autorandr-id) "autorandr has run on display $DISPLAY"

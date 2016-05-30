@@ -47,7 +47,7 @@ if [[ -z $sessions ]]; then
     ## and then start cmus detached so we background it
     ## then update the library and cache,
     ## and reattach. sleep keeps cmus-remote from throwing errors.
-    #~/Scripts/musicmount.sh && \
+    #~/.scripts/musicmount.sh && \
       tmux -2 new -s $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus && tmux detach" \; detach-client && \
       sleep 1 && \
       cmus-remote -l /home/william/Music/contemporary && \
@@ -59,7 +59,7 @@ if [[ -z $sessions ]]; then
     source /tmp/s
     HOST="${URL:6}"
     hostonly=`echo $HOST | sed 's/^.*\@//'`
-    tmux -2 new-session -s "$TMUX_MASTER" -n "$hostonly" "~/Scripts/s $HOST -t" \; split-window -v "~/Scripts/s $HOST"
+    tmux -2 new-session -s "$TMUX_MASTER" -n "$hostonly" "~/.scripts/s $HOST -t" \; split-window -v "~/.scripts/s $HOST"
   else
     ## ssh and cmus are the only special cases,
     ## anything else should start without problems
@@ -77,14 +77,14 @@ else
   if [[ "$1" == "cmus" ]]; then
     # run cmus as a special case
     if [[ -z $(pidof cmus) ]]; then
-      #~/Scripts/musicmount.sh && \
+      #~/.scripts/musicmount.sh && \
         tmux -2 new -t $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Playlists && cmus && tmux detach" \; detach-client && \
         sleep 1 && \
         cmus-remote -l /home/william/Music/contemporary && \
         cmus-remote -C "update-cache"
       tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
     else
-      #~/Scripts/musicmount.sh && \
+      #~/.scripts/musicmount.sh && \
         cmus-remote -l /home/william/Music/contemporary && \
         cmus-remote -C "update-cache"
       tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
@@ -94,7 +94,7 @@ else
     source /tmp/s
     HOST="${URL:6}"
     hostonly=`echo $HOST | sed 's/^.*\@//'`
-    tmux -2 new-session -t "$TMUX_MASTER" \; new-window -n "$hostonly" "~/Scripts/s $HOST -t" \; split-window -v "~/Scripts/s $HOST"
+    tmux -2 new-session -t "$TMUX_MASTER" \; new-window -n "$hostonly" "~/.scripts/s $HOST -t" \; split-window -v "~/.scripts/s $HOST"
   ## cmus and ssh were the only special cases,
   ## if nothing was passed as an argument then it's just "bash"
   ## otherwise it's something specific. either way, we search

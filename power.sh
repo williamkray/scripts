@@ -10,5 +10,5 @@ else
   sudo /usr/bin/powerdown
 fi
 
-sudo -u william /home/william/Scripts/autorandr.sh
-sudo -u william /home/william/Scripts/musicmount.sh
+sudo -u william /home/william/.scripts/autorandr.sh
+sudo -u william /home/william/.scripts/musicmount.sh

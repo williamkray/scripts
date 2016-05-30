@@ -12,7 +12,7 @@ ssh_cmd=$(echo "$cmds"|egrep "ssh\s|s\s")
 
 if [[ $(echo $ssh_cmd|grep "rightscale") ]]; then
   host=$(tmux display-message -p '#W')
-  tmux split-window "/home/william/Scripts/s rightscale@$host"
+  tmux split-window "/home/william/.scripts/s rightscale@$host"
 else
   tmux split-window "$ssh_cmd"
 fi
