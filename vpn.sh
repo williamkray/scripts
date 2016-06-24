@@ -5,12 +5,13 @@ timeout=30
 
 case "$1" in
   start)
-    string=$(yad --center --title "VPN Connector" --image "vpn" --text "VPN connection info" --form --field="URL" --field="Username" --field="Password":H --field="Connection Type ":CB "" "" "" "^Cisco (OpenConnect)!OpenVPN" )
+    string=$(yad --center --title "VPN Connector" --image "vpn" --text "VPN connection info" --form --field="URL" --field="Username" --field="Password":H --field="Connection Type ":CB "" "" "" "^Cisco (OpenConnect)!OpenVPN" --field="2FA")
 
     url=$(echo $string|awk -F '|' '{print $1}')
     username=$(echo $string|awk -F '|' '{print $2}')
     password=$(echo $string|awk -F '|' '{print $3}')
     conn_type=$(echo $string|awk -F '|' '{print $4}')
+    2fa=$(echo $string|awk -F '|' '{print $5}')
 
     ## im including a variable and dropdown for conn_type, but need to write logic
     ## for differentiating procedure depending on the VPN connector used
@@ -25,7 +26,7 @@ case "$1" in
         sudo ip link set wlp3s0 down
       fi
       echo -n "Connecting to $url" && notify-desktop -r $(cat /tmp/vpn-id) "Connecting to $url" > /tmp/vpn-id
-      screen -dmS vpn launchvpn.exp $url $username $password
+      screen -dmS vpn launchvpn.exp $url $username $password $2fa
       while [[ -z $(ifconfig | grep tun) ]] && [[ $time -le $timeout ]]; do
         sleep 1 && echo -n "."
         time=$((time+1))
