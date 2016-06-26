@@ -7,5 +7,5 @@ if [[ $workspace == "2" ]]; then
 elif [[ $workspace == "4" ]]; then
   qutebrowser --basedir ~/.qutebrowser/beachbody $@
 else
-  qutebrowser $@
+  qutebrowser --basedir ~/.qutebrowser/weck $@
 fi
