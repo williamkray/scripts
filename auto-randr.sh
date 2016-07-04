@@ -2,11 +2,11 @@
 
 xrandr_output="$(xrandr)"
 
-if [ -n "$( echo \"$xrandr_output\"|grep 'DP2-1 connected')" ]; then
-  dock3.sh
+if [ -n "$( echo \"$xrandr_output\"|grep 'DP-2-1 connected')" ]; then
+  dock4.sh
   sudo dhcpcd dock0
 else
-  if [ -n "$( echo \"$xrandr_output\"|grep ' DP1 connected')" ]; then
+  if [ -n "$( echo \"$xrandr_output\"|grep ' DP-1 connected')" ]; then
     dock_bb.sh
   else
     undock.sh
