@@ -29,7 +29,8 @@ if [[ $state == "on" ]]; then
   fi
   vol=" $vol%"
 else
-  icon="notification-audio-volume-muted"
+  ## hack in a persistent notification if muted
+  icon="notification-audio-volume-muted -t 0"
   vol="MUTE"
 fi
 
