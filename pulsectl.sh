@@ -18,20 +18,20 @@ vol=$(echo "$master" | awk '{print $5}'|tr -d "[|]|%")
 state=$(amixer get Master|grep 'Front Left:'|awk '{print $6}'|tr -d "[|]|%")
 
 if [[ $state == "on" ]]; then
-  if (( "$vol" <= 30)); then
+  if (( "$vol" <= 10)); then
     icon="notification-audio-volume-low"
-  elif (( "$vol" <= 60 && "$vol" > 30)); then
+  elif (( "$vol" <= 60 && "$vol" > 10)); then
     icon="notification-audio-volume-medium"
   elif (( "$vol" <= 100 && "$vol" > 60)); then
     icon="notification-audio-volume-high"
   else
     echo "volume can't be found!"
   fi
-  vol=" $vol%"
+  vol="$vol%"
 else
   ## hack in a persistent notification if muted
   icon="notification-audio-volume-muted -t 0"
   vol="MUTE"
 fi
 
-notify-desktop -r $nid -i $icon $vol > /tmp/vol
+notify-desktop -r $nid -i $icon "Volume" $vol > /tmp/vol
