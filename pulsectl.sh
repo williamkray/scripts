@@ -1,6 +1,4 @@
 #!/bin/bash
-touch /tmp/vol
-nid=$(cat /tmp/vol)
 
 case "$1" in
   up)
@@ -34,4 +32,10 @@ else
   vol="MUTE"
 fi
 
-notify-desktop -r $nid -i $icon "Volume" $vol > /tmp/vol
+if [ -f /tmp/vol ]; then
+  r="-r $(cat /tmp/vol)"
+fi
+
+cmd="notify-desktop $r -i $icon \"Volume\" $vol"
+echo "$cmd"
+$cmd > /tmp/vol
