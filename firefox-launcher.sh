@@ -7,5 +7,5 @@ if [[ $workspace == "2" ]]; then
 elif [[ $workspace == "4" ]]; then
   firefox -P beachbody $@
 else
-  firefox $@
+  firefox -P default $@
 fi
