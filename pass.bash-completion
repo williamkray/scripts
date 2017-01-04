@@ -94,10 +94,10 @@ _pass()
 					_pass_complete_keys
 				fi
 				;;
-			ls|list|edit)
+			ls|list|edit|raw)
 				_pass_complete_entries
 				;;
-			show|-*)
+			show|otp|-*)
 				COMPREPLY+=($(compgen -W "-c --clip" -- ${cur}))
 				_pass_complete_entries 1
 				;;
