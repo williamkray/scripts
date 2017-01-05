@@ -13,10 +13,10 @@ if [ ! "$1" == "a" ] && [ ! "$1" == "o" ]; then
   exit
 fi
 
-if [ "X$PASSWORD_STORE_DIR" == "X"]; then
-  password_store_dir="$PASSWORD_STORE_DIR"
-else
+if [ "X$PASSWORD_STORE_DIR" == "X" ]; then
   password_store_dir="$HOME/.password-store"
+else
+  password_store_dir="$PASSWORD_STORE_DIR"
 fi
 
 ## we need to have a consistent naming scheme that works
