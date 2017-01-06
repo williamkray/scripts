@@ -2,6 +2,27 @@
 ## attempts to autofill input from
 ## password-store data in text fields
 ## based on the window title
+
+## this script expects a directory in your
+## password-store-dir called ".autofill"
+## in this directory you will be prompted
+## to create new files each time you encounter
+## an unrecognized window title.
+## simply add lines like this to the file:
+## path: personal/somewebsite/whatever
+## if there are more than one path, a
+## gui will pop up and ask you to pick the
+## right one.
+
+## if the default pattern set here is not ideal
+## for a particular website or app, set
+## an entry pattern in either the autofill
+## file or the password entry file itself.
+## lines should look something like this:
+## pattern: username tab password enter sleep3 pin enter
+## all entries should be single words as the list is space
+## separated. sleep times will be parsed.
+
 set -e
 
 ## first of all, you must run this script
