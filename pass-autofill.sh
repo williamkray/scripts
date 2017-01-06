@@ -4,6 +4,8 @@
 ## based on the window title
 set -e
 
+## first of all, you must run this script
+## with either the a or o argument
 usage="usage: $0 <a|o> \n
   a autofill username and password according to pattern \n
   o capture and enter time-based otp"
@@ -13,36 +15,54 @@ if [ ! "$1" == "a" ] && [ ! "$1" == "o" ]; then
   exit
 fi
 
+## figure out where we store our passwords
 if [ "X$PASSWORD_STORE_DIR" == "X" ]; then
   password_store_dir="$HOME/.password-store"
 else
   password_store_dir="$PASSWORD_STORE_DIR"
 fi
 
-## we need to have a consistent naming scheme that works
+## here we get into some really hideous sanitization
+## and tracking of linux window titles
 window="$(xdotool getwindowfocus getwindowname)"
 ## sanitize forwardslashes which cause problems
 window="${window/\//_}"
-## strip browser out if it's a browser window
+## strip browser id out if it's a browser window
+## this should make it work across any browsers that
+## are added to this simple regex
 if [[ $window =~ (Mozilla|Chrome|Chromium) ]]; then
   window="$(echo ${window// /_}|awk -F '-' '{$NF=""; print $0}')"
   ## replace stripped out hyphens we had before
   window="$(echo ${window// /-})"
 fi
 
+## set the path for the file associated with this window name
 af_dir="$password_store_dir/.autofill/$window"
 
+## if we don't already have a file that matches our window,
+## we get an opportunity to create one right now in
+## our favorite editor
 if ! [ -f $af_dir ]; then
   echo "no such auto-fill entry"
-  echo "creating an empty one"
-  ## i open my editor with my favorite script here
-  ## but this could be anything you want to do
+  echo "creating a new one"
   urxvt -e vim "$af_dir"
 fi
 
 ## the file should contain the pass path to the
 ## proper secret file
-path=$(head -1 $password_store_dir/.autofill/$window)
+path="$(grep path $password_store_dir/.autofill/$window |awk '{print $2}')"
+## if there are more than one path available,
+## open a picker to select the proper one
+if [ $(echo "$path"|wc -l) -gt 1 ]; then
+  multipath=$(yad --center \
+    --title "Pass Picker" \
+    --image "keepassx" \
+    --text "Select which password file to use" \
+    --form --item-separator="\n" \
+    --field="Possible paths":CB \
+    "$path")
+  path=$(echo $multipath|awk -F '|' '{print $1}')
+fi
 
 ## just do otp
 if [ "$1" == "o" ]; then
