@@ -36,6 +36,7 @@ if [ ! "$1" == "a" ] && [ ! "$1" == "o" ]; then
   exit
 fi
 
+
 ## figure out where we store our passwords
 if [ "X$PASSWORD_STORE_DIR" == "X" ]; then
   password_store_dir="$HOME/.password-store"
@@ -66,12 +67,13 @@ af_dir="$password_store_dir/.autofill/$window"
 if ! [ -f $af_dir ]; then
   echo "no such auto-fill entry"
   echo "creating a new one"
+  echo -e "## enter paths to password files here\npath: " > "$af_dir"
   urxvt -e vim "$af_dir"
 fi
 
 ## the file should contain the pass path to the
 ## proper secret file
-path="$(grep path $password_store_dir/.autofill/$window |awk '{print $2}')"
+path="$(grep 'path:' $password_store_dir/.autofill/$window |awk '{print $2}')"
 ## if there are more than one path available,
 ## open a picker to select the proper one
 if [ $(echo "$path"|wc -l) -gt 1 ]; then
@@ -93,7 +95,7 @@ if [ "$1" == "o" ]; then
 ## do all the things
 elif [ "$1" == "a" ]; then
   ## there may be window-specific patterns here
-  pattern="$(grep pattern $password_store_dir/.autofill/$window|awk '{$1=""; print $0}')"
+  pattern="$(grep 'pattern:' $password_store_dir/.autofill/$window|awk '{$1=""; print $0}')"
 
   if [ "X$(pass $path|grep -v pattern|grep username)" == "X" ]; then
     username="$(echo $path|awk -F '/' '{print $NF}')"
@@ -104,7 +106,7 @@ elif [ "$1" == "a" ]; then
 
   ## only reset pattern if it hasn't been set
   if [ "X$pattern" == "X" ]; then
-    pattern=$( pass $path|grep pattern|awk '{$1=""; print $0}')
+    pattern=$( pass $path|grep 'pattern:'|awk '{$1=""; print $0}')
   fi
 
   ## and again, default to something sensible
