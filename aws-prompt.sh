@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 setaws() {
   if ! [ $1 ]; then
     unset AWS_DEFAULT_PROFILE
