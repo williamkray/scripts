@@ -1,4 +1,5 @@
 #!/bin/bash
 
-xbacklight -set 100
+#xbacklight -set 100
 
+lux -a 10%
