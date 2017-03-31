@@ -71,20 +71,34 @@ if ! [ -f $af_dir ]; then
   urxvt -e vim "$af_dir"
 fi
 
-## the file should contain the pass path to the
-## proper secret file
-path="$(grep 'path:' $password_store_dir/.autofill/$window |awk '{print $2}')"
-## if there are more than one path available,
-## open a picker to select the proper one
-if [ $(echo "$path"|wc -l) -gt 1 ]; then
-  multipath=$(yad --center \
-    --title "Pass Picker" \
-    --image "keepassx" \
-    --text "Select which password file to use" \
-    --form --item-separator="\n" \
-    --field="Possible paths":CB \
-    "$path")
-  path=$(echo $multipath|awk -F '|' '{print $1}')
+## define this function and run it immediately
+capture_path() {
+  ## the file should contain the pass path to the
+  ## proper secret file
+  path="$(grep 'path:' $password_store_dir/.autofill/$window |awk '{print $2}')"
+  ## if there are more than one path available,
+  ## open a picker to select the proper one
+  if [ $(echo "$path"|wc -l) -gt 1 ]; then
+    multipath=$(yad --center \
+      --title "Pass Picker" \
+      --image "keepassx" \
+      --text "Select which password file to use" \
+      --form --item-separator="\n" \
+      --field="Possible paths":CB \
+      "$path")
+    path=$(echo $multipath|awk -F '|' '{print $1}')
+  fi
+}
+capture_path
+
+## if path doesn't match an actual pass entry,
+## something is wrong. gotta fix it.
+if ! [ -f ${PASSWORD_STORE_DIR:-~/.password-store}/$path.gpg ]; then
+  echo -e "## WARNING: ON LAST ATTEMPT, PATHS IN THIS FILE DID NOT EXIST!\n## PLEASE RESOLVE!!" >> "$af_dir"
+  urxvt -e vim "$af_dir"
+
+  ## retry capturing the path
+  capture_path
 fi
 
 ## just do otp
