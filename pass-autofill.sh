@@ -111,10 +111,10 @@ elif [ "$1" == "a" ]; then
   ## there may be window-specific patterns here
   pattern="$(grep 'pattern:' $password_store_dir/.autofill/$window|awk '{$1=""; print $0}')"
 
-  if [ "X$(pass $path|grep -v pattern|grep username)" == "X" ]; then
+  if [ "X$(pass $path|grep -v pattern|grep 'username:')" == "X" ]; then
     username="$(echo $path|awk -F '/' '{print $NF}')"
   else
-    username="$(pass $path|grep -v pattern|grep username|awk '{print $2}')"
+    username="$(pass $path|grep -v pattern|grep 'username:'|awk '{print $2}')"
   fi
   password="$(pass $path|head -1)"
 
