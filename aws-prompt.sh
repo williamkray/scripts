@@ -2,9 +2,11 @@
 
 setaws() {
   if ! [ $1 ]; then
+    unset AWS_PROFILE
     unset AWS_DEFAULT_PROFILE
   else
     export AWS_DEFAULT_PROFILE=$1
+    export AWS_PROFILE=$1
   fi
 }
 
