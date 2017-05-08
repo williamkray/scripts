@@ -143,7 +143,7 @@ elif [ "$1" == "a" ]; then
       sleep*)
         sleep ${step#sleep}
         ;;
-      pin)
+      pin|mailbox)
         xdotool type "$(pass $path|grep $step|awk '{print $2}')"
         ;;
       *)
