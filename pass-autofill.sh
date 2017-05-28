@@ -49,6 +49,8 @@ fi
 window="$(xdotool getwindowfocus getwindowname)"
 ## sanitize forwardslashes which cause problems
 window="${window/\//_}"
+## remove spaces
+window="${window/ /_}"
 ## strip browser id out if it's a browser window
 ## this should make it work across any browsers that
 ## are added to this simple regex
@@ -143,7 +145,7 @@ elif [ "$1" == "a" ]; then
       sleep*)
         sleep ${step#sleep}
         ;;
-      pin|mailbox)
+      pin|mailbox|config)
         xdotool type "$(pass $path|grep $step|awk '{print $2}')"
         ;;
       *)
