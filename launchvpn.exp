@@ -3,7 +3,6 @@
 set url [lindex $argv 0]
 set un [lindex $argv 1]
 set pw [lindex $argv 2]
-set 2fa [lindex $argv 3]
 
 spawn sudo openconnect $url
 expect "Username:"
@@ -11,8 +10,5 @@ send "$un\r"
 
 expect "Password:"
 send "$pw\r"
-
-expect "Password:"
-send "$2fa\r"
 
 interact
