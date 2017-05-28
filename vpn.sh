@@ -4,13 +4,19 @@ time=0
 timeout=30
 
 function sendmessage() {
+  tmpfile="/tmp/vpn-id"
+  local notifycmd="notify-desktop"
+  if [ -f $tmpfile ]; then
+    notifycmd="$notifycmd -r $(cat $tmpfile)"
+  fi
   local msg="$1"
-  echo -ne "$msg" && notify-desktop -r $(cat /tmp/vpn-id) "$msg" > /tmp/vpn-id
+  echo -e "$msg"
+  $notifycmd "$msg" > /tmp/vpn-id
 }
 
 case "$1" in
   start)
-    string=$(yad --center --title "VPN Connector" --image "vpn" --text "VPN connection info" --form --field="URL/file" --field="Username" --field="Password":H --field="Connection Type ":CB "/home/william/Projects/protonvpn/us-01.protonvpn.com.udp1194.ovpn" "" "" "Cisco (OpenConnect)!^OpenVPN" --field="2FA")
+    string=$(yad --center --title "VPN Connector" --image "vpn" --text "VPN connection info" --form --field="URL/file" --field="Username" --field="Password":H --field="Connection Type ":CB "" "" "" "Cisco (OpenConnect)!^OpenVPN" --field="2FA")
 
     url=$(echo $string|awk -F '|' '{print $1}')
     username=$(echo $string|awk -F '|' '{print $2}')
@@ -29,7 +35,6 @@ case "$1" in
       fi
       sendmessage "Connecting to $url"
       if [[ $conn_type == "OpenVPN" ]]; then
-        sendmessage "\nUsing OpenVPN"
         screen -dmS vpn launchopenvpn.exp "$url" "$username" "$password"
       else
         screen -dmS vpn launchvpn.exp $url $username $password $2fa
@@ -42,24 +47,25 @@ case "$1" in
         yad --notification --image vpn --text "VPN connected: $url" --command="" --menu 'Disconnect!vpn.sh stop'
       done > /dev/null 2>&1 &
       if [[ $time -le $timeout ]]; then
-        sendmessage "\nConnected to VPN\n"
+        sendmessage "Connected to VPN"
       else
         sudo pkill openconnect
         sudo pkill openvpn
-        sendmessage "Connection timed out. Operation aborted.\n"
+        sendmessage "Connection timed out. Operation aborted."
         sudo ip link set wlp4s0 up
       fi
     else
-      sendmessage "tun network device already exists. Is the VPN already running?\n"
+      sendmessage "tun network device already exists. Is the VPN already running?"
     fi
     ;;
   stop)
     sudo pkill openconnect
+    sudo pkill openvpn
     pkill yad
     sudo resolvconf -d tun0
     sudo ip link set wlp4s0 up
     sudo dhcpcd wlp4s0
-    sendmessage "VPN connection stopped\n"
+    sendmessage "VPN connection stopped"
     ;;
   *)
     echo "Usage: vpn (start|stop)"
