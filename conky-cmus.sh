@@ -10,7 +10,7 @@ info="$ARTIST
   $TITLE
   $ALBUM"
 
-if ! [ $STATUS = "playing" ]; then
+if ! [ "$STATUS" = "playing" ]; then
   echo -n "stopped"
   if [ -f /tmp/cover.jpg ]; then
     rm -f /tmp/cover.jpg

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+## stolen from here: https://www.evus.com/blog/bashrc-multiple-aws-accounts/
+
+aws-profile () {
+  if [ -z "$1" ] 
+  then 
+    type aws
+  else
+    alias aws="aws --profile $1"
+  fi
+}
+
+aws-profiles () {
+  cat ~/.aws/config | grep profile | cut -d ' ' -f2- | tr ']' ' '
+}
