@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+## use the setaws command to change profiles at a bash prompt
+## run without arguments to unset
 setaws() {
   if ! [ $1 ]; then
     unset AWS_PROFILE
@@ -10,6 +12,8 @@ setaws() {
   fi
 }
 
+## put this in your custom bash prompt somewhere to print the
+## currently active AWS profile in cool orange lettering
 __aws_prompt () {    
   if [ -z ${AWS_DEFAULT_PROFILE+x} ] ; then        
     AWS_PROFILE_SHOW=""    
@@ -20,6 +24,7 @@ __aws_prompt () {
   echo -eE "$AWS_PROFILE_SHOW"
 }
 
+## define tab-completion values for the setaws command
 _setaws_completion() {
   local cur
 
