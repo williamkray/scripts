@@ -1,5 +1,4 @@
 #!/bin/bash
 
-bt_connections=$(hcitool con)
-
-echo "$bt_connections"|grep -iv connections | awk '{print $3}'|wc -l
+bt_connections=$(find /sys/class/bluetooth/hci0/ -type d -name hci0:* | wc -l)
+echo $bt_connections
