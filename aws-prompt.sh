@@ -21,7 +21,7 @@ __aws_prompt () {
     AWS_PROFILE_SHOW=" \e[0;33m($AWS_DEFAULT_PROFILE)\e[m"    
   fi    
 
-  echo -eE "$AWS_PROFILE_SHOW"
+  printf "$AWS_PROFILE_SHOW"
 }
 
 ## define tab-completion values for the setaws command
