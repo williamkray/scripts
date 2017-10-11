@@ -87,7 +87,9 @@ capture_path() {
       --text "Select which password file to use" \
       --form --item-separator="\n" \
       --field="Possible paths":CB \
-      "$path")
+      "$path" \
+      --button=gtk-cancel:1 \
+      --button=gtk-ok:0)
     path=$(echo $multipath|awk -F '|' '{print $1}')
   fi
 }
