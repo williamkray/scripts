@@ -25,7 +25,7 @@ input="$1"
 
 ## find any existing tmux sessions
 sessions=`tmux ls|awk -F ':' '{print $1}'`
-detached_sessions=`tmux ls | grep -v attached | awk -F ':' '{print $1}' | egrep -v ^$TMUX_MASTER`
+detached_sessions=`tmux ls | grep -Ev '(attached|tmux-master:)' | awk -F ':' '{print $1}'`
 
 ## define a logical default command to run
 if [[ -z $1 ]]; then
