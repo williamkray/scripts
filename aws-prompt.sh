@@ -31,7 +31,7 @@ _setaws_completion() {
   COMPREPLY=()
   cur=${COMP_WORDS[COMP_CWORD]}
 
-  profiles=$(cat ~/.aws/config | grep profile | cut -d ' ' -f2- | tr ']' ' ')
+  profiles=$(awk '/profile/{print substr($2, 1, length($2)-1)}' ~/.aws/config)
 
   case "$cur" in
     
