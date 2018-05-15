@@ -147,11 +147,12 @@ elif [ "$1" == "a" ]; then
       sleep*)
         sleep ${step#sleep}
         ;;
-      pin|mailbox|config)
-        xdotool type "$(pass $path|grep $step|awk '{print $2}')"
-        ;;
+      #pin|mailbox|config)
+      #  xdotool type "$(pass $path|grep $step|awk '{print $2}')"
+      #  ;;
       *)
-        echo "i don't know what to do"
+        xdotool type "$(pass $path|grep $step|awk '{print $2}')"
+      #  echo "i don't know what to do"
         ;;
     esac
   done
