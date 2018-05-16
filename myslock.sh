@@ -10,8 +10,8 @@ revert() {
 trap revert SIGHUP SIGINT SIGTERM
 
 #xset +dpms dpms 5 5 5
-scrot $file
+escrotum $file
 convert $file -scale 10% -scale 1000% $file
-i3lock -n -u -i $file
+i3lock -n --radius 60 -i $file
 
 #revert
