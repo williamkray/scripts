@@ -36,6 +36,6 @@ if [ -f /tmp/vol ]; then
   r="-r $(cat /tmp/vol)"
 fi
 
-cmd="notify-desktop $r -i $icon \"Volume\" $vol"
+cmd="notify-desktop $r -i $icon Volume $vol"
 echo "$cmd"
 $cmd > /tmp/vol
