@@ -1,9 +1,10 @@
 #!/bin/bash
+export DISPLAY=:0
 
 xrandr_output="$(xrandr)"
 
-if [ -n "$( echo \"$xrandr_output\"|grep 'DP-2-1 connected')" ]; then
-  dock4.sh
+if [ -n "$( echo \"$xrandr_output\"|grep 'DP1-1 connected')" ]; then
+  dock5.sh
   #sudo dhcpcd dock0
 else
   if [ -n "$( echo \"$xrandr_output\"|grep ' DP-1 connected')" ]; then
@@ -14,5 +15,6 @@ else
   fi
 fi
 
-auto-pulse.sh
+#fehbg.sh
+#auto-pulse.sh
 #xfce4-panel -r
