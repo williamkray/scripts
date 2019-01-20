@@ -62,7 +62,7 @@ coolcool | (⌐ ͡■ ͜ʖ ͡■)"
   exit 0
   ;;
   *)
-    echo "you doin it wrong"
+    echo "you doin it wrong. try show_all."
     exit 1
     ;;
 esac
