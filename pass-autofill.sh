@@ -70,7 +70,7 @@ if ! [ -f $af_dir ]; then
   echo "no such auto-fill entry"
   echo "creating a new one"
   echo -e "## enter paths to password files here\npath: " > "$af_dir"
-  urxvt -e vim "$af_dir"
+  st -e vim "$af_dir"
 fi
 
 ## define this function and run it immediately

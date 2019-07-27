@@ -20,7 +20,7 @@ trap revert SIGHUP SIGINT SIGTERM
 
 #xset +dpms dpms 5 5 5
 escrotum $file
-convert $file -scale 5% -scale 2000% "/home/william/Pictures/Icons/lock.png" -gravity center -composite -matte $file
+convert $file -scale 5% -scale 2000% $file
 lock $file
 
 #revert
