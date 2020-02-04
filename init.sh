@@ -11,6 +11,39 @@ if ! [[ $(which git) ]]; then
   exit 1
 fi
 
+lnss() {
+  ## ln -s safely
+  ## create symbolic link only if non existent, a conflicting file doesn't exist,
+  ## or the link exists but points to the wrong location
+  src="$1"
+  dst="$2"
+
+  if [[ -e "$dst" ]]; then
+    if [[ -L "$dst" ]]; then
+      loc=$(readlink "$dst")
+      if [[ "$loc" == "$src" ]]; then
+        echo "symlink exists and points to correct location already ($dst -> $src)"
+        return 0
+      else
+        echo "symlink exists at $dst but points to $loc. recreating."
+        rm "$dst"
+      fi
+    elif [[ -f "$dst" ]]; then
+      echo "conflicting file exists at $dst, backing it up"
+      mv "$dst" "${dst}.orig"
+    elif [[ -d "$dst" ]]; then
+      echo "conflicting directory exists at $dst, renaming it"
+      mv "$dst" "${dst}.dir"
+    else
+      echo "a conflicting file exists, which is of a type i have not encountered before. poop."
+      exit 1
+    fi
+  fi
+  
+  echo "creating symlink from $src to $dst"
+  ln -s "$src" "$dst"
+}
+
 ## first thing's first, we need to download some git repos
 mkdir -p ~/git
 
@@ -34,15 +67,9 @@ pushd ~/git
 popd
 
 ## create some symlinks to things if they don't already exist
-if ! [[ -L ~/.scripts ]]; then
-  ln -s ~/git/scripts ~/.scripts ## this one is important so things work right
-fi
-if ! [[ -L ~/.bashrc ]]; then
-  mv ~/.bashrc ~/.bashrc.orig && ln -s ~/git/dotfiles/bashrc ~/.bashrc
-fi
-if ! [[ -L ~/.bash_aliases ]]; then
-  ln -s ~/git/dotfiles/bash_aliases ~/.bash_aliases
-fi
+lnss ~/git/scripts ~/.scripts ## this one is important so things work right
+mv ~/.bashrc ~/.bashrc.orig && lnss ~/git/dotfiles/bashrc ~/.
+lnss ~/git/dotfiles/bash_aliases ~/.bash_aliases
 
 ## do the needful for vim configuration
 mkdir -p ~/.vim/{colors,bundle,autoload}
@@ -50,9 +77,7 @@ mkdir -p ~/.vim/{colors,bundle,autoload}
 ## download pathogen, my vimrc, and the hybrid colorscheme
 wget -O ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 wget -O ~/.vim/colors/hybrid.vim https://raw.githubusercontent.com/w0ng/vim-hybrid/master/colors/hybrid.vim
-if ! [[ -L ~/.vim/vimrc ]]; then
-  ln -s ~/git/dotfiles/vimrc ~/.vim/vimrc
-fi
+lnss ~/git/dotfiles/vimrc ~/.vim/vimrc
 
 pushd ~/.vim/bundle/
   for pkg in \
@@ -76,18 +101,12 @@ pushd ~/.vim/bundle/
 popd
 
 ## tmux!
-if ! [[ -L ~/.tmux.conf ]]; then
-  ln -s ~/git/dotfiles/tmux.conf ~/.tmux.conf
-fi
+lnss ~/git/dotfiles/tmux.conf ~/.tmux.conf
 
 ## rofi!
 mkdir -p ~/.config
-if ! [[ -L ~/.config/rofi ]]; then
-  ln -s ~/git/dotfiles/rofi ~/.config/rofi
-fi
+lnss ~/git/dotfiles/rofi ~/.config/rofi
 
 ## desktop theme stuff!
-if ! [[ -L ~/.config/themes ]]; then
-  ln -s ~/git/dotfiles/themes ~/.themes
-fi
+lnss ~/git/dotfiles/themes ~/.themes
 
