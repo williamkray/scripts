@@ -21,7 +21,7 @@ pushd ~/git
         git pull
       popd
     else
-      git clone https://github.com/williamkray/${repo}.git
+      git clone git@github.com:williamkray/${repo}.git
     fi
   done
 popd
