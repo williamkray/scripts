@@ -21,7 +21,14 @@ pushd ~/git
         git pull
       popd
     else
-      git clone git@github.com:williamkray/${repo}.git
+      ## use http for initial clone to prevent permission errors
+      ## and switch to ssh auth for later uploading.
+      ## this will obviously fail until i add my ssh key
+      ## to my github account.
+      git clone https://github.com/williamkray/${repo}.git
+      pushd ./${repo}
+        git remote set-url origin git@github.com:williamkray/${repo}.git
+      popd
     fi
   done
 popd
