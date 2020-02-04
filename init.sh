@@ -85,3 +85,9 @@ mkdir -p ~/.config
 if ! [[ -L ~/.config/rofi ]]; then
   ln -s ~/git/dotfiles/rofi ~/.config/rofi
 fi
+
+## desktop theme stuff!
+if ! [[ -L ~/.config/themes ]]; then
+  ln -s ~/git/dotfiles/themes ~/.themes
+fi
+
