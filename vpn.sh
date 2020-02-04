@@ -31,7 +31,7 @@ case "$1" in
 
     if [[ -z $(ip link show | grep tun) ]]; then
       if [[ -n $(ip link show | egrep "enp0s20u3u1u3|eth0") ]]; then
-        sudo ip link set wlp4s0 down
+        sudo ip link set wlp3s0 down
       fi
       sendmessage "Connecting to $url"
       if [[ $conn_type == "OpenVPN" ]]; then
@@ -52,7 +52,7 @@ case "$1" in
         sudo pkill openconnect
         sudo pkill openvpn
         sendmessage "Connection timed out. Operation aborted."
-        sudo ip link set wlp4s0 up
+        sudo ip link set wlp3s0 up
       fi
     else
       sendmessage "tun network device already exists. Is the VPN already running?"
@@ -63,8 +63,8 @@ case "$1" in
     sudo pkill openvpn
     pkill yad
     sudo resolvconf -d tun0
-    sudo ip link set wlp4s0 up
-    sudo dhcpcd wlp4s0
+    sudo ip link set wlp3s0 up
+    sudo dhcpcd wlp3s0
     sendmessage "VPN connection stopped"
     ;;
   *)
