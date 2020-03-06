@@ -3,6 +3,11 @@
 ## functions to make using the bitwarden cli easier
 ## without having to remember everything
 
+# unlock the vault
+bwul() {
+  export BW_SESSION=${BW_SESSION:-$(bw unlock --raw)}
+}
+
 # search for items in the vault, and open it in a pager
 # this prevents data leaking into tty history
 bwsearch() {
