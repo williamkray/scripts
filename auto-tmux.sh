@@ -19,22 +19,23 @@
 ## break out the bits that should be functions. Besides,
 ## each use case is slightly unique, which makes it a little weird.
 
-
+## define TMUX_MASTER here instead of bash profile or something silly
+TMUX_MASTER=tmux-zero
 ## separate value to launch a command
-input="$1"
+input="$@"
 
 ## find any existing tmux sessions
 sessions=`tmux ls|awk -F ':' '{print $1}'`
 detached_sessions=`tmux ls | grep -Ev '(attached|tmux-master:)' | awk -F ':' '{print $1}'`
 
 ## define a logical default command to run
-if [[ -z $1 ]]; then
-  input='bash'
+if [[ -z $input ]]; then
+  input=$SHELL
 fi
 
 ## add the detach command so we don't have
 ## a ton of random terminals open all the time
-input="$input && tmux detach"
+#input="$input && tmux detach"
 
 ## get the first word of the command, used later
 cmd=`echo "$input"|awk '{print $1}'`
