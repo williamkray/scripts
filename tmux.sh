@@ -25,8 +25,8 @@ TMUX_MASTER=tmux-zero
 input="$@"
 
 ## find any existing tmux sessions
-sessions=`tmux ls|awk -F ':' '{print $1}'`
-detached_sessions=`tmux ls | grep -Ev '(attached|tmux-zero:)' | awk -F ':' '{print $1}'`
+sessions=$(tmux ls|awk -F ':' '{print $1}')
+detached_sessions=$(tmux ls | grep -Ev '(attached|'$TMUX_MASTER':)' | awk -F ':' '{print $1}')
 
 ## define a logical default command to run
 if [[ -z $input ]]; then
@@ -35,7 +35,7 @@ fi
 
 ## add the detach command so we don't have
 ## a ton of random terminals open all the time
-#input="$input && tmux detach"
+input="$input && tmux detach"
 
 ## get the first word of the command, used later
 cmd=`echo "$input"|awk '{print $1}'`
