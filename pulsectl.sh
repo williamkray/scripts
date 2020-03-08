@@ -1,4 +1,8 @@
 #!/bin/bash
+if grep -i arguments /tmp/vol ; then
+  rm /tmp/vol
+fi
+
 
 case "$1" in
   up)
