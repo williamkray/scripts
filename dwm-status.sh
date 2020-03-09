@@ -18,8 +18,8 @@ fi
 while true; do
 
   ## current time in local and UTC
-  time_local=" $(date +%I:%M%p)"
-  time_utc=" [$(date -u +%H:%M)UTC]"
+  time_local=" $(date +%I:%M%p\ %Z)"
+  time_utc=" [$(date -u +%H:%M) UTC]"
   ## 
   if [[ -n $batdisplay ]]; then
     charging=$(cat /sys/class/power_supply/AC/online)
