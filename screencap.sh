@@ -22,10 +22,10 @@ case $cmd in
   escrotum | scrot)
     case $wutcap in
       some)
-        flags=" --select /tmp/%Y%m%d%H%M%S_Screenshot.png"
+        flags=" --select /tmp/Screenshot_%Y%m%d%H%M%S.png"
         ;;
       all)
-        flags=" /tmp/%Y%m%d%H%M%S_Screenshot.png"
+        flags=" /tmp/Screenshot_%Y%m%d%H%M%S.png"
         ;;
     esac
     ;;
