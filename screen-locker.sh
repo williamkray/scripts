@@ -18,11 +18,11 @@ elif [[ $(which xautolock) && $(which i3lock) && $(which escrotum) ]]; then
   }
 
   trap revert SIGHUP SIGINT SIGTERM
-  #xset +dpms dpms 5 5 5
+  xset +dpms dpms 5 5 5
   escrotum $file
   convert $file -scale 5% -scale 2000% $file
   lock $file
-  #revert
+  revert
 else
   echo "no recognized screen locker configurations, exiting"
   exit 1
