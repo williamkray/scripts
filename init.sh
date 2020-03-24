@@ -69,6 +69,7 @@ popd
 ## create some symlinks to things if they don't already exist
 lnss ~/git/scripts ~/.scripts ## this one is important so things work right
 lnss ~/git/dotfiles/bashrc ~/.bashrc
+lnss ~/git/dotfiles/bash_profile ~/.bash_profile
 lnss ~/git/dotfiles/bash_aliases ~/.bash_aliases
 
 ## do the needful for vim configuration
