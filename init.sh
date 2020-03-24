@@ -48,7 +48,7 @@ lnss() {
 mkdir -p ~/git
 
 pushd ~/git
-  for repo in scripts dotfiles; do
+  for repo in scripts dotfiles st dwm-wreck; do
     if [[ -d ${repo} ]]; then
       pushd ./${repo}
         git pull
@@ -110,3 +110,12 @@ lnss ~/git/dotfiles/rofi ~/.config/rofi
 ## desktop theme stuff!
 lnss ~/git/dotfiles/themes ~/.themes
 
+## dwm
+pushd ~/git/dwm-wreck
+sudo make clean install
+popd
+
+## st
+pushd ~/git/st
+sudo make clean install
+popd
