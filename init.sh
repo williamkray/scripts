@@ -101,6 +101,9 @@ pushd ~/.vim/bundle/
   done
 popd
 
+## xinitrc
+lnss ~/git/dotfiles/xinitrc ~/.xinitrc
+
 ## tmux!
 lnss ~/git/dotfiles/tmux.conf ~/.tmux.conf
 
