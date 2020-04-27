@@ -114,6 +114,12 @@ lnss ~/git/dotfiles/rofi ~/.config/rofi
 ## desktop theme stuff!
 lnss ~/git/dotfiles/themes ~/.themes
 
+## urlscan!
+lnss ~/git/dotfiles/urlscan ~/.config/urlscan
+
+## mutt!
+lnss ~/git/dotfiles/mutt ~/.mutt
+
 ## dwm
 pushd ~/git/dwm-wreck
 sudo make clean install
