@@ -28,7 +28,7 @@ case $cmd in
         flags=" /tmp/Screenshot_%Y%m%d%H%M%S.png"
         ;;
       lock)
-        flags=" /tmp/lock.png"
+        flags=" -o /tmp/lock.png"
     esac
     ;;
   gnome-screenshot)
