@@ -7,4 +7,4 @@
 #sleep 1
 xrandr --auto
 xrandr --output eDP1 --primary
-fehbg.sh
+#fehbg.sh

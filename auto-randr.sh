@@ -4,7 +4,7 @@ export DISPLAY=:0
 xrandr_output="$(xrandr)"
 
 if [ -n "$( echo \"$xrandr_output\"|grep 'DP1-1 connected')" ]; then
-  dock5.sh
+  dock7.sh
   #sudo dhcpcd dock0
 else
   if [ -n "$( echo \"$xrandr_output\"|grep ' DP-1 connected')" ]; then

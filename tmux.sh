@@ -51,7 +51,7 @@ if [[ -z $sessions ]]; then
     #~/.scripts/musicmount.sh && \
       tmux -2 new -s $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Music/playlists && cmus && tmux detach" \; detach-client && \
       sleep 1 && \
-      cmus-remote -l /home/william/Music/contemporary && \
+      cmus-remote -l ~/Music/contemporary && \
       cmus-remote -C "update-cache"
     tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
   ## if the first command was ssh, we need to get variables from
@@ -81,12 +81,12 @@ else
       #~/.scripts/musicmount.sh && \
         tmux -2 new -t $TMUX_MASTER \; new-window -t 0 -n CMus "cd ~/Music/playlists && cmus && tmux detach" \; detach-client && \
         sleep 1 && \
-        cmus-remote -l /home/william/Music/contemporary && \
+        cmus-remote -l ~/Music/contemporary && \
         cmus-remote -C "update-cache"
       tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
     else
       #~/.scripts/musicmount.sh && \
-        cmus-remote -l /home/william/Music/contemporary && \
+        cmus-remote -l ~/Music/contemporary && \
         cmus-remote -C "update-cache"
       tmux -2 new -t $TMUX_MASTER \; select-window -t CMus
     fi

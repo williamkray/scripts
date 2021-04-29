@@ -1,4 +1,5 @@
 #!/bin/bash
+## deprecated, use screencap.sh instead
 
 function get_file {
 	last_file=$(ls -t ~/Pictures/Screenshots/|head -1)

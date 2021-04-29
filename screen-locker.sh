@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
+  kill -SIGUSR1 $(pidof swayidle)
+  exit 0
+fi
+
 ## check what our options are
 if [[ $(which xscreensaver-command) ]]; then
   xscreensaver-command -lock
