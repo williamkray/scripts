@@ -48,7 +48,9 @@ lnss() {
 mkdir -p ~/git
 
 pushd ~/git
-  for repo in scripts dotfiles st dwm-wreck; do
+  # getting rid of st and dwm repos because i've moved away from them
+  #for repo in scripts dotfiles st dwm-wreck; do
+  for repo in scripts dotfiles; do
     if [[ -d ${repo} ]]; then
       pushd ./${repo}
         git pull
@@ -120,12 +122,30 @@ lnss ~/git/dotfiles/urlscan ~/.config/urlscan
 ## mutt!
 lnss ~/git/dotfiles/mutt ~/.mutt
 
-## dwm
-pushd ~/git/dwm-wreck
-sudo make clean install
-popd
+## mako!
+mkdir -p ~/.config/mako
+lnss ~/git/dotfiles/mako.config ~/.config/mako/config
 
-## st
-pushd ~/git/st
-sudo make clean install
-popd
+## i3!
+mkdir -p ~/.config/i3
+lnss ~/git/dotfiles/i3.config ~/.config/i3/config
+
+## sway!
+mkdir -p ~/.config/sway
+lnss ~/git/dotfiles/sway.config ~/.config/sway/config
+
+## kitty!
+mkdir -p ~/.config/kitty
+lnss ~/git/dotfiles/kitty.conf ~/.config/kitty/kitty.conf
+
+
+## removing these because i don't use them anymore
+### dwm
+#pushd ~/git/dwm-wreck
+#sudo make clean install
+#popd
+#
+### st
+#pushd ~/git/st
+#sudo make clean install
+#popd
