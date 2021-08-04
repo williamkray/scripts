@@ -5,7 +5,9 @@ if [ ! -x /usr/bin/cmus-remote ]; then
   exit
 fi
 
-touch /tmp/cmus-info-id
+_skip() {
+  cmus-remote --next
+}
 
 FILE=$( cmus-remote -Q 2>/dev/null | grep "file" | sed 's/^file //g' )
 ARTIST=$( cmus-remote -Q 2>/dev/null | grep " artist " | sed 's/tag\ artist/Artist\:/g' )
@@ -14,13 +16,23 @@ TITLE=$( cmus-remote -Q 2>/dev/null | grep " title " | sed 's/tag\ title/Song\:/
 
 info="  $ARTIST
   $TITLE
-  $ALBUM"
+  $ALBUM
+
+  Click notification to skip song"
 
 ffmpeg -y -i "$FILE" "/tmp/cover.jpg" > /dev/null 2>&1
 
 if [ -z "$ARTIST" ]; then
-  notify-desktop -t 5000 "Nothing"
+  dunstify -t 5000 -h string:x-dunst-stack-tag:cmus "C*Mus" "Nothing Playing"
 else
-  notify-desktop -t 5000 -R /tmp/cmus-info-id -i /tmp/cover.jpg "$info" > /tmp/cmus-info-id
+  ACTION=$(dunstify -t 5000 -h string:x-dunst-stack-tag:cmus -i /tmp/cover.jpg \
+    --action="skipSong,Skip Song" "C*Mus" "$info")
 fi
 
+case "$ACTION" in
+  "skipSong")
+    _skip
+    ;;
+  *)
+    ;;
+esac
