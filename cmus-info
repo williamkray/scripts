@@ -21,6 +21,6 @@ ffmpeg -y -i "$FILE" "/tmp/cover.jpg" > /dev/null 2>&1
 if [ -z "$ARTIST" ]; then
   notify-desktop -t 5000 "Nothing"
 else
-  notify-desktop -t 5000 -r "$(cat /tmp/cmus-info-id)" -i /tmp/cover.jpg "$info" > /tmp/cmus-info-id
+  notify-desktop -t 5000 -R /tmp/cmus-info-id -i /tmp/cover.jpg "$info" > /tmp/cmus-info-id
 fi
 

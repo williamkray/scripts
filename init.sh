@@ -138,6 +138,10 @@ lnss ~/git/dotfiles/sway.config ~/.config/sway/config
 mkdir -p ~/.config/kitty
 lnss ~/git/dotfiles/kitty.conf ~/.config/kitty/kitty.conf
 
+## git configs
+lnss ~/git/dotfiles/gitconfig.global ~/.gitconfig
+lnss ~/git/dotfiles/gitconfig.personal ~/git/.gitconfig.inc
+## do something similar for work-related gitconfig include file in work directory
 
 ## removing these because i don't use them anymore
 ### dwm

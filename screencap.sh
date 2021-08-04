@@ -67,5 +67,5 @@ echo "executing $cmd $flags"
 $cmd $flags
 
 if ! [[ $XDG_CURRENT_DESKTOP = "sway" ]]; then
-  echo "$(ls -1tr /tmp/screenshots/Screenshot_* | tail -1)" | xclip -selection clipboard -i
+  cat "$(ls -1tr /tmp/screenshots/Screenshot_* | tail -1)" | xclip -selection clipboard -i -t image/png
 fi

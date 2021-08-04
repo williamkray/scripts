@@ -39,7 +39,7 @@ while true; do
   batdisplay=" ${batavg}%${chgdisplay} |"
   fi
   if [[ -n $essid ]]; then
-    connected_essid=$(iw wlp3s0 info | grep ssid | awk '{print $2}')
+    connected_essid=$(iw wlp113s0 info | grep ssid | awk '{print $2}')
     essid=${connected_essid:-WiFi=NULL}
     essiddisplay=" $essid |"
   fi
