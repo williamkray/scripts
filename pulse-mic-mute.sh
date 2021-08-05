@@ -25,7 +25,7 @@ if (default_found) {
   status="muted"
 }
 system("pacmd set-source-mute " name " " mute);
-system("notify-send --icon " icon " Microphone: " status);
+system("dunstify -h string:x-dunst-stack-tag:mic --icon " icon " Microphone: " status);
 exit;
 }
 }
