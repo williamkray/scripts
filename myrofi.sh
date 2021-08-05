@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-rofi -modi drun,run -show drun -monitor primary -show-icons -sidebar-mode
+rofi -modi drun,run -show drun -show-icons -sidebar-mode
