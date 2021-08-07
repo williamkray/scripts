@@ -7,7 +7,7 @@ set -e
 xautolock -disable
 dunstctl set-paused true
 
-read -p "Screenlock and notifications paused. Press enter to re-enable..."
+read -p $'Screenlock and notifications paused. Press enter to re-enable...\n\n'
 
 xautolock -enable
 dunstctl set-paused false
