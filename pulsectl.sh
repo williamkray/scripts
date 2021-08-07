@@ -36,7 +36,7 @@ if [ -f /tmp/vol ]; then
   r="-r $(cat /tmp/vol)"
 fi
 
-cmd="dunstify -h string:x-dunst-stack-tag:volume -h int:value:$vol -i $icon Volume $vol"
+cmd="dunstify -h string:x-dunst-stack-tag:volume -h int:value:$vol -i $icon Volume"
 echo "$cmd"
 $cmd #> /tmp/vol
 canberra-gtk-play -i audio-volume-change -d "changeVolume"
