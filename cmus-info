@@ -9,6 +9,11 @@ _skip() {
   cmus-remote --next
 }
 
+_update_library() {
+  cmus-remote -l ~/Music/contemporary
+  cmus-remote -C "update-cache"
+}
+
 FILE=$( cmus-remote -Q 2>/dev/null | grep "file" | sed 's/^file //g' )
 ARTIST=$( cmus-remote -Q 2>/dev/null | grep " artist " | sed 's/tag\ artist/Artist\:/g' )
 ALBUM=$( cmus-remote -Q 2>/dev/null | grep " album " | sed 's/tag\ album/Album\:/g' )
@@ -28,6 +33,8 @@ else
   ACTION=$(dunstify -t 5000 -h string:x-dunst-stack-tag:cmus -i /tmp/cover.jpg \
     --action="skipSong,Skip Song" "C*Mus" "$info")
 fi
+
+_update_library
 
 case "$ACTION" in
   "skipSong")
