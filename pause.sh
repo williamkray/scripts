@@ -6,16 +6,23 @@ set -e
 
 touch ~/.pause
 
-echo -n 'PAUSED' > ~/.pause
-while [[ -s ~/.pause ]]; do
+_unpause() {
+  xautolock -enable
+  dunstctl set-paused false
+  echo '' > ~/.pause
+  echo "Screenlock and notifications unpaused."
+}
+
+_pause() {
+  echo 'PAUSED' > ~/.pause
   xautolock -disable
   dunstctl set-paused true
+  echo "Screenlock and notifications paused. Run this script again to unpause."
+}
 
-  read -p $'Screenlock and notifications paused. Press enter to re-enable...\n\n'
-  echo -n '' > ~/.pause
-done
+if [[ -f ~/.pause && -z $(cat ~/.pause) ]]; then
+  _pause
+else
+  _unpause
+fi
 
-xautolock -enable
-dunstctl set-paused false
-
-echo "Screenlock and notifications re-enabled."
