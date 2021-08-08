@@ -4,10 +4,16 @@ set -e
 
 ## pause lockscreen and notifications
 
-xautolock -disable
-dunstctl set-paused true
+touch ~/.pause
 
-read -p $'Screenlock and notifications paused. Press enter to re-enable...\n\n'
+echo -n 'PAUSED' > ~/.pause
+while [[ -s ~/.pause ]]; do
+  xautolock -disable
+  dunstctl set-paused true
+
+  read -p $'Screenlock and notifications paused. Press enter to re-enable...\n\n'
+  echo -n '' > ~/.pause
+done
 
 xautolock -enable
 dunstctl set-paused false
