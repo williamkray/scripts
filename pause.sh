@@ -3,24 +3,24 @@
 set -e
 
 ## pause lockscreen and notifications
-
-touch ~/.pause
+file=~/.pause
+touch "$file"
 
 _unpause() {
   xautolock -enable
   dunstctl set-paused false
-  echo '' > ~/.pause
+  echo '' > "$file"
   echo "Screenlock and notifications unpaused."
 }
 
 _pause() {
-  echo 'PAUSED' > ~/.pause
+  echo 'PAUSE' > "$file"
   xautolock -disable
   dunstctl set-paused true
   echo "Screenlock and notifications paused. Run this script again to unpause."
 }
 
-if [[ -f ~/.pause && -z $(cat ~/.pause) ]]; then
+if [[ -f "$file" && -z $(cat "$file") ]]; then
   _pause
 else
   _unpause
