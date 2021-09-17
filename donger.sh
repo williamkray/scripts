@@ -1,72 +1,45 @@
 #!/bin/bash
-name="$1"
+arg="$@"
+dmenu_cmd="rofi -dmenu"
 
-case $name in
-  glare | 'ಠ_ಠ' )
-    donger="ಠ_ಠ";;
-  blank | 'ರ_ರ' )
-    donger="ರ_ರ";;
-  creep| 'ಠ‿ಠ' )
-    donger="ಠ‿ಠ";;
-  shrug | '¯\_(ツ)_/¯' )
-    donger='¯\_(ツ)_/¯';;
-  heyho | 'ヽ(⌐■_■)ノ♪♬' )
-    donger='ヽ(⌐■_■)ノ♪♬';;
-  flip | '(╯°□°)╯︵ ┻━┻' )
-    donger='(╯°□°)╯︵ ┻━┻';;
-  unflip | '┬─┬ノ(ಠ_ಠノ)' )
-    donger='┬─┬ノ(ಠ_ಠノ)';;
-  skank|'ᕕ(⌐■_■)ᕗ ♪♬')
-    donger='ᕕ(⌐■_■)ᕗ ♪♬';;
-  monacle|'(╭ರ_•́)')
-    donger='(╭ರ_•́)';;
-  coolcool|'(⌐ ͡■ ͜ʖ ͡■)')
-    donger='(⌐ ͡■ ͜ʖ ͡■)';;
-  show_names)
-    echo "glare 
-blank 
-creep 
-shrug 
-heyho 
-flip 
-unflip 
-skank 
-monacle 
-coolcool"
-    exit 0
-    ;;
-  show_all)
-    echo "glare | ಠ_ಠ
+dongerlist='glare | ಠ_ಠ
 blank | ರ_ರ
-creep| ಠ‿ಠ
-shrug | ¯\_(ツ)_/¯
+creep | ಠ‿ಠ
+shrug | ¯\\_(ツ)_/¯
 heyho | ヽ(⌐■_■)ノ♪♬
 flip | (╯°□°)╯︵ ┻━┻
 unflip | ┬─┬ノ(ಠ_ಠノ)
 skank | ᕕ(⌐■_■)ᕗ ♪♬
 monacle | (╭ರ_•́)
-coolcool | (⌐ ͡■ ͜ʖ ͡■)"
-  exit 0
-  ;;
-  show_dongers)
-    echo "ಠ_ಠ
-ರ_ರ
-ಠ‿ಠ
-¯\_(ツ)_/¯
-ヽ(⌐■_■)ノ♪♬
-(╯°□°)╯︵ ┻━┻
-┬─┬ノ(ಠ_ಠノ)
-ᕕ(⌐■_■)ᕗ ♪♬
-(╭ರ_•́)
-(⌐ ͡■ ͜ʖ ͡■)"
-  exit 0
-  ;;
-  *)
-    echo "you doin it wrong. try show_all."
-    exit 1
-    ;;
-esac
+coolcool | (⌐ ͡■ ͜ʖ ͡■)'
 
-echo -n "$donger" | xclip -i -selection clipboard
-sleep 0.2
-xdotool key ctrl+v
+usage="Usage:
+$(basename $0) [ls|cp|wrap]
+
+  use ls or list to show output of the donger list
+  use cp or copy to copy the donger version of that output
+
+  * the cp/copy command expects the format of a line from the donger list. be sure to pipe that output into the copy
+    command to ensure the proper characters are copied to the clipboard. this script is meant to be run with a
+    dmenu-like helper, like so:
+
+  $(basename $0) ls | dmenu | $(basename $0) cp
+
+  in fact, using the wrap command does exactly that: wraps the above command."
+
+case $arg in
+  ls|list)
+    echo "$dongerlist"
+    ;;
+  cp|copy)
+    read input
+    donger="$(echo -n "$input" | cut -d' ' -f3-)"
+    echo -n "$donger" | xclip -i -selection clipboard
+    dunstify "dongers" "$donger copied to clipboard"
+    ;;
+  wrap)
+    $0 list | $dmenu_cmd | $0 copy
+    ;;
+  *)
+    echo "$usage"
+esac
