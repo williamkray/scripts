@@ -27,6 +27,7 @@ elif [[ $(which xautolock) && $(which i3lock) && $(which screencap.sh) ]]; then
   xset +dpms dpms 5 5 5
   screencap.sh lock
   convert $file -scale 5% -scale 2000% $file
+  xset dpms force off
   lock $file
   revert
 else
