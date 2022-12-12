@@ -6,8 +6,11 @@ if [[ $(ls -l /sys/class/power_supply/ | grep BAT | wc -l) -gt 1 ]]; then
     sleep 5
   done
 else
-  if [ -L ~/.uevent ]; then
+  if [ ! -L ~/.uevent ]; then
+    ln -s /sys/class/power_supply/BAT?/uevent ~/.uevent
+  else
     if [ ! -e ~/.uevent ]; then
+      rm ~/.uevent
       ln -s /sys/class/power_supply/BAT0/uevent ~/.uevent
     fi
   fi
