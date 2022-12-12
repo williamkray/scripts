@@ -11,7 +11,7 @@ else
   else
     if [ ! -e ~/.uevent ]; then
       rm ~/.uevent
-      ln -s /sys/class/power_supply/BAT0/uevent ~/.uevent
+      ln -s /sys/class/power_supply/BAT?/uevent ~/.uevent
     fi
   fi
 fi
