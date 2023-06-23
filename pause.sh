@@ -7,16 +7,28 @@ file=~/.pause
 touch "$file"
 
 _unpause() {
-  xautolock -enable
+  if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
+    if [ -z $(pidof swayidle) ]; then
+      swayidle.sh
+    fi
+  else
+    xautolock -enable
+  fi
+
   dunstctl set-paused false
   echo '' > "$file"
   echo "Screenlock and notifications unpaused."
 }
 
 _pause() {
-  echo 'PAUSE' > "$file"
-  xautolock -disable
+  if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
+    kill $(pidof swayidle)
+  else
+    xautolock -disable
+  fi
+
   dunstctl set-paused true
+  echo 'PAUSE' > "$file"
   echo "Screenlock and notifications paused. Run this script again to unpause."
 }
 
