@@ -1,7 +1,20 @@
 #!/bin/bash
 
 if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
-  kill -SIGUSR1 $(pidof swayidle)
+  # depends on swaylock-effect package for functionality
+  swaylock --screenshots \
+    --effect-pixelate 20 \
+    --indicator-radius 15 \
+    --inside-color 373445ff \
+    --ring-color ffffffff \
+    --key-hl-color d23c3dff \
+    --bs-hl-color d23c3dff \
+    --separator-color 00000000 \
+    --inside-ver-color fecf4dff \
+    --inside-wrong-color d23c3dff \
+    --ring-ver-color ffffffff \
+    --ring-wrong-color ffffffff 
+    
   exit 0
 fi
 

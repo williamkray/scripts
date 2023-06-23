@@ -23,6 +23,10 @@ mkdir -p /tmp/screenshots
 
 case $cmd in 
   grimshot)
+    if [ "$(pidof slurp)" ]; then
+      kill $(pidof slurp) # kill the process if it's already launched
+      exit 0
+    fi
     case $wutcap in
       some)
         flags=" --notify copy area"
