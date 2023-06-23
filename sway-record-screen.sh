@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-wf-recorder -g "$(slurp)" --file="~/Screen Recordings/screen_recording_$(date +%Y%m%d%S).mp4"
+wf-recorder -g "$(slurp)" --file="${HOME}/Videos/wayland_screen_recording_$(date +%Y%m%d%S).mp4"
