@@ -13,6 +13,9 @@ _unpause() {
     fi
   else
     xautolock -enable
+    cmd=$(grep xautolock ~/.xinitrc)
+    eval $cmd
+    xset +dpms
   fi
 
   dunstctl set-paused false
@@ -25,6 +28,9 @@ _pause() {
     kill $(pidof swayidle)
   else
     xautolock -disable
+    echo 'PAUSE' > "$file"
+    kill $(pidof xautolock)
+    xset -dpms
   fi
 
   dunstctl set-paused true
