@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
+if [[ "$XDG_CURRENT_DESKTOP" = "sway" || "$XDG_CURRENT_DESKTOP" = "Hyprland" ]]; then
   # depends on swaylock-effect package for functionality
   swaylock --screenshots \
     --effect-pixelate 20 \
@@ -13,7 +13,13 @@ if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
     --inside-ver-color fecf4dff \
     --inside-wrong-color d23c3dff \
     --ring-ver-color ffffffff \
-    --ring-wrong-color ffffffff 
+    --ring-wrong-color ffffffff &
+
+  sleep 2
+
+  if [[  "$XDG_CURRENT_DESKTOP" = "Hyprland" ]]; then
+    hyprctl dispatcher dpms off
+  fi
     
   exit 0
 fi

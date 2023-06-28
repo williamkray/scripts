@@ -7,7 +7,7 @@ file=~/.pause
 touch "$file"
 
 _unpause() {
-  if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
+  if [[ "$XDG_CURRENT_DESKTOP" = "sway" || "$XDG_CURRENT_DESKTOP" = "Hyprland" ]]; then
     if [ -z $(pidof swayidle) ]; then
       swayidle.sh
     fi
@@ -24,7 +24,7 @@ _unpause() {
 }
 
 _pause() {
-  if [[ "$XDG_CURRENT_DESKTOP" = "sway" ]]; then
+  if [[ "$XDG_CURRENT_DESKTOP" = "sway" || "$XDG_CURRENT_DESKTOP" = "Hyprland" ]]; then
     kill $(pidof swayidle)
   else
     xautolock -disable

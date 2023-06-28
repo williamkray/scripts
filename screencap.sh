@@ -6,7 +6,7 @@ if [[ -z $wutcap ]]; then
   wutcap="some"
 fi
 
-if [[ $XDG_CURRENT_DESKTOP = "sway" ]]; then
+if [[ $XDG_CURRENT_DESKTOP = "sway" || $XDG_CURRENT_DESKTOP = "Hyprland" ]]; then
   cmd=grimshot
 elif [[ $(which maim) ]]; then
   cmd=maim
