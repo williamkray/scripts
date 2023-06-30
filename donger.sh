@@ -34,7 +34,12 @@ case $arg in
   cp|copy)
     read input
     donger="$(echo -n "$input" | cut -d' ' -f3-)"
-    echo -n "$donger" | xclip -i -selection clipboard
+    if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
+      cpcmd="wl-copy"
+    else
+      cpcmd="xclip -i -selection clipboard"
+    fi
+    echo -n "$donger" | ${cpcmd}
     dunstify "dongers" "$donger copied to clipboard"
     ;;
   wrap)
