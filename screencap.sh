@@ -70,6 +70,6 @@ esac
 echo "executing $cmd $flags"
 $cmd $flags
 
-if ! [[ $XDG_CURRENT_DESKTOP = "sway" ]]; then
-  cat "$(ls -1tr /tmp/screenshots/Screenshot_* | tail -1)" | xclip -selection clipboard -i -t image/png
+if ! [[ $XDG_SESSION_TYPE = "wayland" ]]; then
+  cat "$(ls -1tr /tmp/screenshots/Screenshot_* | tail -1)" | wl-copy
 fi
