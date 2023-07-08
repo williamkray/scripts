@@ -29,7 +29,7 @@ case $cmd in
     fi
     case $wutcap in
       some)
-        flags=" --notify copy area"
+        flags=" --notify save area /tmp/screenshots/Screenshot_$(date +%Y%m%d%H%M%S).png"
         ;;
       all)
         flags=" --notify save screen /tmp/screenshots/Screenshot_$(date +%Y%m%d%H%M%S).png"
@@ -70,6 +70,6 @@ esac
 echo "executing $cmd $flags"
 $cmd $flags
 
-if ! [[ $XDG_SESSION_TYPE = "wayland" ]]; then
+if [[ $XDG_SESSION_TYPE = "wayland" ]]; then
   cat "$(ls -1tr /tmp/screenshots/Screenshot_* | tail -1)" | wl-copy
 fi
