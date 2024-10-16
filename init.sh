@@ -45,9 +45,9 @@ lnss() {
 }
 
 ## first thing's first, we need to download some git repos
-mkdir -p ~/git
+mkdir -p ~/Code
 
-pushd ~/git
+pushd ~/Code
   # getting rid of st and dwm repos because i've moved away from them
   #for repo in scripts dotfiles st dwm-wreck; do
   for repo in scripts dotfiles; do
@@ -69,18 +69,20 @@ pushd ~/git
 popd
 
 ## create some symlinks to things if they don't already exist
-lnss ~/git/scripts ~/.scripts ## this one is important so things work right
-lnss ~/git/dotfiles/bashrc ~/.bashrc
-lnss ~/git/dotfiles/bash_profile ~/.bash_profile
-lnss ~/git/dotfiles/bash_aliases ~/.bash_aliases
+lnss ~/Code/scripts ~/.local/bin ## this one is important so things work right
+lnss ~/Code/dotfiles/bashrc ~/.bashrc
+lnss ~/Code/dotfiles/bash_profile ~/.bash_profile
+lnss ~/Code/dotfiles/bash_aliases ~/.bash_aliases
 
 ## do the needful for vim configuration
 mkdir -p ~/.vim/{colors,bundle,autoload}
+mkdir -p ~/.config/nvim # for neovim init
 
 ## download pathogen, my vimrc, and the hybrid colorscheme
 wget -O ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 wget -O ~/.vim/colors/hybrid.vim https://raw.githubusercontent.com/w0ng/vim-hybrid/master/colors/hybrid.vim
-lnss ~/git/dotfiles/vimrc ~/.vim/vimrc
+lnss ~/Code/dotfiles/vimrc ~/.vim/vimrc
+lnss ~/Code/dotfiles/config-nvim-init.vim ~/.config/nvim/init.vim
 
 pushd ~/.vim/bundle/
   for pkg in \
@@ -104,52 +106,52 @@ pushd ~/.vim/bundle/
 popd
 
 ## xinitrc
-lnss ~/git/dotfiles/xinitrc ~/.xinitrc
+#lnss ~/Code/dotfiles/xinitrc ~/.xinitrc
 
 ## tmux!
-lnss ~/git/dotfiles/tmux.conf ~/.tmux.conf
+lnss ~/Code/dotfiles/tmux.conf ~/.tmux.conf
 
 ## rofi!
-mkdir -p ~/.config
-lnss ~/git/dotfiles/rofi ~/.config/rofi
+#mkdir -p ~/.config
+#lnss ~/Code/dotfiles/rofi ~/.config/rofi
 
 ## desktop theme stuff!
-lnss ~/git/dotfiles/themes ~/.themes
+#lnss ~/Code/dotfiles/themes ~/.themes
 
 ## urlscan!
-lnss ~/git/dotfiles/urlscan ~/.config/urlscan
+#lnss ~/Code/dotfiles/urlscan ~/.config/urlscan
 
 ## mutt!
-lnss ~/git/dotfiles/mutt ~/.mutt
+#lnss ~/Code/dotfiles/mutt ~/.mutt
 
 ## mako!
-mkdir -p ~/.config/mako
-lnss ~/git/dotfiles/mako.config ~/.config/mako/config
+#mkdir -p ~/.config/mako
+#lnss ~/Code/dotfiles/mako.config ~/.config/mako/config
 
 ## i3!
-mkdir -p ~/.config/i3
-lnss ~/git/dotfiles/i3.config ~/.config/i3/config
+#mkdir -p ~/.config/i3
+#lnss ~/Code/dotfiles/i3.config ~/.config/i3/config
 
 ## sway!
-mkdir -p ~/.config/sway
-lnss ~/git/dotfiles/sway.config ~/.config/sway/config
+#mkdir -p ~/.config/sway
+#lnss ~/Code/dotfiles/sway.config ~/.config/sway/config
 
 ## kitty!
 mkdir -p ~/.config/kitty
-lnss ~/git/dotfiles/kitty.conf ~/.config/kitty/kitty.conf
+lnss ~/Code/dotfiles/kitty.conf ~/.config/kitty/kitty.conf
 
 ## git configs
-lnss ~/git/dotfiles/gitconfig.global ~/.gitconfig
-lnss ~/git/dotfiles/gitconfig.personal ~/git/.gitconfig.inc
+lnss ~/Code/dotfiles/gitconfig.global ~/.gitconfig
+lnss ~/Code/dotfiles/gitconfig.personal ~/Code/.gitconfig.inc
 ## do something similar for work-related gitconfig include file in work directory
 
 ## removing these because i don't use them anymore
 ### dwm
-#pushd ~/git/dwm-wreck
+#pushd ~/Code/dwm-wreck
 #sudo make clean install
 #popd
 #
 ### st
-#pushd ~/git/st
+#pushd ~/Code/st
 #sudo make clean install
 #popd
